@@ -11,16 +11,17 @@ import ButtonCartao from '@components/CreateDebt/ButtonCartao';
 import ButtonMes from '@components/CreateDebt/ButtonMes';
 import BSDevedor from '@components/CreateDebt/BSDevedor';
 import BSCartao from '@components/CreateDebt/BSCartao';
+import BSMesAno from '@components/CreateDebt/BSMesAno';
 import { allMonths } from '@utils/auxFunctions';
+import { monthIndexNumber } from '@utils/filterManager'
 
 //LB
+import { getTime, getYear, getMonth } from 'date-fns';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Toast from 'react-native-toast-message';
-import uuid from 'react-native-uuid';
 import { ms } from 'react-native-size-matters';
-import { getTime } from 'date-fns';
+import uuid from 'react-native-uuid';
 import _ from 'lodash';
-
 
 //Redux
 import { useAppDispatch, useAppSelector } from '@hooks';
@@ -43,15 +44,17 @@ const defaultCartao: ICartao = {
 
 const CreateDebt = (props: any) => {
     //Redux
-    const dispatch = useAppDispatch();
     const { debtsList, debtsFilter } = useAppSelector(selectDebts);
     const { getItem, setItem } = useAsyncStorage('myData');
+    const dispatch = useAppDispatch();
 
     //State
-    const [devedor, setDevedor] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [cartao, setCartao] = useState<ICartao>(defaultCartao);
     const [detalhes, setDetalhes] = useState<IDetalheGasto>(defaultDetalhes);
+    const [devedor, setDevedor] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [cartao, setCartao] = useState<ICartao>(defaultCartao);
+    const [mes, setMes] = useState<string>(monthIndexNumber(getMonth(new Date())));
+    const [ano, setAno] = useState<number>(getYear(new Date()));
 
     //Refs
     const InputComponentRef = useRef<IInputTotal>();
@@ -99,6 +102,14 @@ const CreateDebt = (props: any) => {
         setCartao(cartao);
     }
 
+    const handleMes = (mesEAno: string) => {
+        console.log(mesEAno);
+
+        setMes(mesEAno);
+        // setAno(mesEAno.ano);
+        toggleBS('mes', 'close');
+    }
+
     const handleCriarGasto = () => {
         if (taTudoOk()) {
             criarGasto();
@@ -121,7 +132,7 @@ const CreateDebt = (props: any) => {
             ano: 2021,
             devedor: devedor,
             createdAt: getTime(new Date()),
-            mes: 'SETEMBRO',
+            mes: mes,
             parcela: 1,
             userId: 1,
             picture: '',
@@ -203,7 +214,11 @@ const CreateDebt = (props: any) => {
                             />
                         </View>
                         <View style={styles.buttonRightContainer}>
-                            <ButtonMes />
+                            <ButtonMes
+                                onPress={() => toggleBS('mes', 'open')}
+                                mes={mes}
+                                ano={ano}
+                            />
                             <View style={styles.separatorView} />
                             <ButtonCartao
                                 onPress={() => toggleBS('cartao', 'open')}
@@ -228,6 +243,10 @@ const CreateDebt = (props: any) => {
             <BSCartao
                 selectedItem={handleCartao}
                 ref={BSCartaoRef}
+            />
+            <BSMesAno
+                selectedItem={handleMes}
+                ref={BSMesRef}
             />
         </>
     )

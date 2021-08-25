@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
-import { filterDebts } from '@utils/filterManager';
+import { filterDebts, generateChartData } from '@utils/filterManager';
 import { IGasto, IReduxState, ICartao } from '@interfaces/IMainInterfaces'
+
+//LB
+import { getYear } from 'date-fns';
 import _ from 'lodash';
 
 interface removeDebt {
@@ -26,7 +29,8 @@ const initialState: IReduxState = {
     debtsList: [],
     debtsFilter: [],
     devedorList: [],
-    cartoesList: []
+    cartoesList: [],
+    chartData: [],
 }
 
 export const debtSlice = createSlice({
@@ -37,6 +41,7 @@ export const debtSlice = createSlice({
         addDebt: (state, action: PayloadAction<IGasto[]>) => {
             let newDebts = [...state.debtsList, ...action.payload];
             state.debtsList = newDebts;
+            state.chartData = generateChartData(newDebts, getYear(new Date()))
         },
         removeDebt: (state, action: PayloadAction<removeDebt>) => {
             let newDebts = [...state.debtsList].slice(action.payload.index, 1);
@@ -53,12 +58,18 @@ export const debtSlice = createSlice({
         },
         setInitialStateOnRedux: (state, action) => {
             state.debtsList = action.payload.debtsList;
+            state.chartData = generateChartData(action.payload.debtsList, getYear(new Date()));
         },
         filterBy: (state, action: PayloadAction<IFilterBy>) => {
             const myGroup = _.groupBy(state.debtsList, action.payload.filter);
             const listOfItens: [string, IGasto[]][] = _.toPairs(myGroup);
             state.debtsFilter = listOfItens;
             state.filteringBy = action.payload.filter;
+        },
+        setYearChart: (state, action) => {
+            console.log(action);
+            
+            state.chartData = generateChartData(state.debtsList, action.payload);
         },
         //Card
         addCard: (state) => {
@@ -77,7 +88,8 @@ export const {
     setDebtFilter,
     setInitialStateOnRedux,
     editDebt,
-    filterBy
+    filterBy,
+    setYearChart
 } = debtSlice.actions;
 export const selectDebts = (state: RootState) => state.debts;
 

@@ -45,6 +45,7 @@ export interface IReduxState {
     debtsFilter: [string, IGasto[]][];
     devedorList: IDevedor[];
     cartoesList: ICartao[];
+    chartData: number[];
 }
 
 

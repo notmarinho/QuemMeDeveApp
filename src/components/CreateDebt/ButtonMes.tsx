@@ -2,14 +2,23 @@ import React from 'react'
 import { Pressable, StyleSheet, Text, View, } from 'react-native'
 import { ms } from 'react-native-size-matters'
 import { colors } from '../../commounStyles'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ButtonMes = () => {
+
+interface IButtonProps {
+    onPress(): void,
+    mes: string | undefined,
+    ano: number | undefined;
+}
+
+const ButtonMes = (props: IButtonProps) => {
     return (
         <Pressable
-            onPress={() => console.log('Mes Pressed')}
+            onPress={() => props.onPress()}
             style={styles.container}>
+            <Icon name='calendar' size={ms(20)} color={colors.primaryDark} />
             <Text>
-
+                {props.mes}
             </Text>
         </Pressable>
     )
@@ -29,6 +38,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-        borderRadius: ms(10)
+        borderRadius: ms(10),
+        padding: ms(10)
     }
 })
