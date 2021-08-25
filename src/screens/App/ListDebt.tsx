@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, StatusBar, TouchableOpacity, FlatList, Dimensio
 
 //Redux
 import { useAppDispatch, useAppSelector } from '@hooks';
-import { selectDebts, setDebtFilter } from '../../feature/debts/debetSlice'
+import { selectDebts, filterBy } from '../../feature/debts/debetSlice'
 
 //CP
 import { colors } from '../../commounStyles';
@@ -13,23 +13,23 @@ import ListOfDebts from '@components/ListOfDebts/ListOfDebts';
 //LB
 import BottomSheet from 'reanimated-bottom-sheet';
 
-const ListDebts = () => {
+const ListDebts = (props: any) => {
     const sheetRef = createRef<BottomSheet>();
+    useEffect(() => { filterOnRedux("mes") }, [])
 
     // Redux
     const dispatch = useAppDispatch();
-    const { debtsList, debtsFilter } = useAppSelector(selectDebts);
-    useEffect(() => { filterBy("mes") }, [])
+    const { debtsFilter } = useAppSelector(selectDebts);
 
-    const filterBy = (field: string) => {
-        const data = filterDebts(debtsList, field);
-        dispatch(setDebtFilter({ data }));
+    const filterOnRedux = (filter: 'mes' | 'devedor' | 'cartao' | 'compra') => {
+        dispatch(filterBy({ filter: filter }))
     }
 
     return (
         <ListOfDebts
+            navigation={props.navigation}
             data={debtsFilter}
-            filterBy={filterBy}
+            filterBy={filterOnRedux}
             ref={sheetRef} />
     )
 }

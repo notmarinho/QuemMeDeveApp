@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, Text, View, Dimensions } from 'react-native'
 interface ICardSection {
     sectionTitle: any;
     debtItens: any;
+    navigation: any;
 }
 
 import CardGasto from '@components/ListOfDebts/CardDebt'
@@ -16,7 +17,7 @@ import { toCurrency } from '@utils/auxFunctions';
 const { width: SCREEN_WIDTH, height } = Dimensions.get('window');
 
 
-const CardSection = ({ sectionTitle, debtItens }: ICardSection) => {
+const CardSection = ({ sectionTitle, debtItens, navigation }: ICardSection) => {
     const sumOfItens = _.sumBy(debtItens, 'valorParcela');
     return (
         <View style={styles.sectionContainer}>
@@ -32,7 +33,7 @@ const CardSection = ({ sectionTitle, debtItens }: ICardSection) => {
             </View>
             <FlatList
                 data={debtItens}
-                renderItem={({ item }) => <CardGasto item={item} />}
+                renderItem={({ item }) => <CardGasto item={item} navigation={navigation} />}
                 keyExtractor={(_, idx) => String(idx)}
             />
         </View>

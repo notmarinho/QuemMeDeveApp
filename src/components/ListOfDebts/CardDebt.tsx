@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 
 //Interface
 import { IGasto } from '@interfaces/IMainInterfaces';
@@ -9,24 +9,39 @@ import { colors, fonts } from '../../commounStyles';
 import { toCurrency } from '@utils/auxFunctions';
 
 //LB
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ms } from 'react-native-size-matters';
 
+interface ICardDebt {
+    item: IGasto;
+    navigation: any;
+}
 
+const CardDebt = ({ item, navigation }: ICardDebt) => {
 
-const CardDebt = ({ item }: { item: IGasto }) => {
+    const navigateToDetails = () => navigation.navigate('DetalhesDebito', { item })
+
     return (
-        <View style={styles.cardContainer}>
+        <Pressable
+            onPress={navigateToDetails}
+            style={styles.cardContainer}>
             <View style={styles.infoContainer}>
-                <Text
-                    numberOfLines={1}
-                    style={styles.txtDescription}>
-                    {item.compra}
-                </Text>
+                <View style={styles.textAndIconContainer}>
+                    <Icon
+                        name={item.picture ? 'camera' : 'camera-plus'}
+                        size={ms(14)}
+                        color={item.picture ? colors.text : colors.mutted}
+                        style={styles.icon} />
+                    <Text
+                        numberOfLines={1}
+                        style={styles.txtDescription}>
+                        {item.compra}
+                    </Text>
+                </View>
                 <View style={styles.cardAndMonthContainer}>
                     <Text style={styles.txtCardName}>
                         {item.cartao}
                     </Text>
-
                 </View>
             </View>
             <View style={styles.valueContainer}>
@@ -38,7 +53,7 @@ const CardDebt = ({ item }: { item: IGasto }) => {
                     {`${item.totalParcelas > 1 ? item.parcela + '/' + item.totalParcelas : ''}`}
                 </Text>
             </View>
-        </View>
+        </Pressable>
     )
 }
 
@@ -80,5 +95,12 @@ const styles = StyleSheet.create({
     },
     cardAndMonthContainer: {
         flexDirection: 'row'
+    },
+    textAndIconContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    icon: {
+        marginRight: ms(5)
     }
 })

@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SplashScreen from './screens/App/SplashScreen';
 import CreateDebt from './screens/App/CreateDebt';
+import DebtDetais from './screens/App/DebtDetails';
 import ListDebts from './screens/App/ListDebt';
 import Home from './screens/App/Home';
 
@@ -36,6 +37,10 @@ const App = () => {
         <Stack.Screen
           name="ListarDebito"
           component={ListDebts}
+        />
+        <Stack.Screen
+          name="DetalhesDebito"
+          component={DebtDetais}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -3,10 +3,16 @@ import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-nativ
 
 import { colors, fonts } from '../../commounStyles';
 
-//Lb
+//LB
 import { ms } from 'react-native-size-matters'
 
+//Redux
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { selectDebts, editDebt } from '../../feature/debts/debetSlice';
+
 const Header = ({ onFilterPress, currentFilter }: { onFilterPress(field: string): void, currentFilter: string }) => {
+    
+
     return (
         <>
             <StatusBar backgroundColor={colors.primary} />

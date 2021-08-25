@@ -1,7 +1,7 @@
-import React, { createRef, useState, useRef } from 'react'
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Keyboard, ActivityIndicator } from 'react-native'
+import React, { createRef, useState, useRef } from 'react';
+import { StyleSheet, Text, View, StatusBar, TouchableOpacity, Keyboard, ActivityIndicator } from 'react-native';
 
-import { colors, fonts } from '../../commounStyles'
+import { colors, fonts } from '../../commounStyles';
 
 //CP
 import InputValorTotal, { IInputTotal } from '@components/CreateDebt/InputValorTotal';
@@ -11,11 +11,12 @@ import ButtonCartao from '@components/CreateDebt/ButtonCartao';
 import ButtonMes from '@components/CreateDebt/ButtonMes';
 import BSDevedor from '@components/CreateDebt/BSDevedor';
 import BSCartao from '@components/CreateDebt/BSCartao';
-import { allMonths } from '@utils/auxFunctions'
+import { allMonths } from '@utils/auxFunctions';
 
 //LB
 import BottomSheet from 'reanimated-bottom-sheet';
 import Toast from 'react-native-toast-message';
+import uuid from 'react-native-uuid';
 import { ms } from 'react-native-size-matters';
 import { getTime } from 'date-fns';
 import _ from 'lodash';
@@ -110,6 +111,8 @@ const CreateDebt = (props: any) => {
         setLoading(true);
         let novosGastos: IGasto[] = [];
         let gastoCriado: IGasto = {
+            id: uuid.v4(),
+            idParcela: uuid.v4(),
             compra: detalhes?.descricao,
             valorParcela: parseFloat(detalhes?.valorParcela),
             totalParcelas: detalhes?.totalParcela,
@@ -121,23 +124,27 @@ const CreateDebt = (props: any) => {
             mes: 'SETEMBRO',
             parcela: 1,
             userId: 1,
+            picture: '',
         };
 
         novosGastos.push(gastoCriado);
         if (detalhes?.totalParcela > 1) {
             let numMes = allMonths.indexOf(gastoCriado.mes);
+            let anoParcela = gastoCriado.ano;
             for (let numParcela = 2; numParcela != detalhes?.totalParcela + 1; numParcela++) {
                 // Ajustar o Mes
                 numMes += 1;
                 if (numMes > 11) {
-                    console.log('Entrou com no if');
                     numMes -= 12;
+                    anoParcela++
                 }
 
                 let novaParcela: IGasto = {
                     ...gastoCriado,
+                    idParcela: uuid.v4(),
                     parcela: numParcela,
-                    mes: allMonths[numMes]
+                    mes: allMonths[numMes],
+                    ano: anoParcela,
                 };
                 novosGastos.push(novaParcela);
             }
@@ -154,7 +161,6 @@ const CreateDebt = (props: any) => {
                     .then(() => {
                         //Adding to redux
                         dispatch(addDebt(novosGastos));
-
                         Toast.show({
                             type: 'success',
                             text1: 'Gasto Adicionado',
@@ -164,12 +170,6 @@ const CreateDebt = (props: any) => {
                         // props.navigation.goBack();
                     })
                     .catch(e => { throw new Error(e) })
-
-
-
-
-
-
             })
             .catch(e => console.error(e))
             .finally(() => setLoading(false));
@@ -192,7 +192,7 @@ const CreateDebt = (props: any) => {
             <StatusBar backgroundColor={colors.card} barStyle='dark-content' />
             <View style={styles.container}>
                 <View>
-                    <InputValorTotal    
+                    <InputValorTotal
                         ref={InputComponentRef}
                         returnedValue={setDetalhes} />
                     <View style={styles.buttonsContainer}>

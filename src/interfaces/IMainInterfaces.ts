@@ -1,4 +1,8 @@
+import { Image } from "react-native-image-crop-picker";
+
 export interface IGasto {
+    id: string | number[];
+    idParcela: string | number[];
     userId: number;
     parcela: number;
     ano: number;
@@ -10,6 +14,7 @@ export interface IGasto {
     valorParcela: number;
     cartao: string;
     mes: 'JANEIRO' | 'FEVEREIRO' | 'MARÇO' | 'ABRIL' | 'MAIO' | 'JUNHO' | 'JULHO' | 'AGOSTO' | 'SETEMBRO' | 'OUTUBRO' | 'NOVEMBRO' | 'DEZEMBRO';
+    picture?: string;
 };
 
 export interface Debet {
@@ -35,6 +40,7 @@ export interface IDetalheGasto {
 }
 
 export interface IReduxState {
+    filteringBy: 'mes' | 'devedor' | 'cartao' | 'compra';
     debtsList: IGasto[];
     debtsFilter: [string, IGasto[]][];
     devedorList: IDevedor[];

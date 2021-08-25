@@ -16,30 +16,38 @@ import { ms } from 'react-native-size-matters';
 import CardSection from './CardSection';
 import Header from './Header';
 import { colors, fonts } from '../../commounStyles';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+//Redux
+import { useAppSelector } from '@hooks';
+import { selectDebts } from '../../feature/debts/debetSlice';
 
 const ListOfDebts = forwardRef((props: any, ref) => {
     const { data, filterBy } = props;
-    const sheetRef = createRef<BottomSheet>();
-    const [currentFilter, setCurrentFilter] = useState('mes');
+    const { filteringBy } = useAppSelector(selectDebts);
 
     const handleSelectedFilter = (field: string) => {
         filterBy(field);
-        ref.current?.snapTo(0);
-        setCurrentFilter(field);
+        ref.current?.snapTo(0); // Hiding Bottom Sheet
     }
+
+    const showBottomSheet = () => ref.current?.snapTo(1);
 
     return (
         <>
             <FlatList
                 ListHeaderComponent={
                     <Header
-                        currentFilter={currentFilter}
-                        onFilterPress={() => ref.current?.snapTo(1)} />}
+                        currentFilter={filteringBy}
+                        onFilterPress={showBottomSheet} />}
                 data={data}
                 contentContainerStyle={{ flexGrow: 1, backgroundColor: colors.background }}
                 keyExtractor={(_, idx) => String(idx)}
-                renderItem={({ item }) => <CardSection sectionTitle={item[0]} debtItens={item[1]} />}
+                renderItem={({ item }) =>
+                    <CardSection
+                        navigation={props.navigation}
+                        sectionTitle={item[0]}
+                        debtItens={item[1]} />}
             />
             <BottomSheet
                 ref={ref}
