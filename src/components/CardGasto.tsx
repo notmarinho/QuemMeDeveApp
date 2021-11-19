@@ -1,5 +1,11 @@
-import React from 'react'
-import { StyleSheet, Text, View, Dimensions, useColorScheme } from 'react-native'
+import React from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  useColorScheme,
+} from 'react-native';
 
 //LB
 import { ms } from 'react-native-size-matters';
@@ -11,37 +17,37 @@ import { toCurrency } from '@utils/auxFunctions';
 
 //Interface
 interface Props {
-    item: IGasto,
+  item: IGasto;
 }
 
 const { width: windowWidth } = Dimensions.get('window');
 
 const CardGasto: React.FC<Props> = ({ item }) => {
-    const { colors } = useTheme();
-    return (
-        <View style={{ ...styles.container, backgroundColor: colors.card }}>
-            <Text style={{ color: colors.text }}>
-                {`${item.compra} ${item.totalParcelas > 1 ? item.parcela + '/' + item.totalParcelas : ''}`}
-            </Text>
-            <Text style={{ color: colors.primary }}>
-                {toCurrency(item.valorParcela)}
-            </Text>
-        </View>
-    )
-}
+  const { colors } = useTheme();
+  return (
+    <View style={{ ...styles.container, backgroundColor: colors.card }}>
+      <Text style={{ color: colors.text }}>
+        {`${item.compra} ${item.parcela + '/' + item.totalParcelas}`}
+      </Text>
+      <Text style={{ color: colors.primary }}>
+        {toCurrency(item.valorParcela)}
+      </Text>
+    </View>
+  );
+};
 
-export default CardGasto
+export default CardGasto;
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        paddingHorizontal: ms(20),
-        width: windowWidth * 0.9,
-        height: ms(50),
-        borderRadius: ms(8),
-        alignItems: "center",
-        justifyContent: 'space-between',
-        backgroundColor: 'lightgray',
-        marginVertical: ms(2.5)
-    }
-})
+  container: {
+    flexDirection: 'row',
+    paddingHorizontal: ms(20),
+    width: windowWidth * 0.9,
+    height: ms(50),
+    borderRadius: ms(8),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'lightgray',
+    marginVertical: ms(2.5),
+  },
+});

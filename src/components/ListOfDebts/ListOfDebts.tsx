@@ -6,6 +6,7 @@ import {
     Text,
     TouchableOpacity,
     Pressable,
+    ActivityIndicator,
 } from 'react-native';;
 
 //LB
@@ -24,11 +25,16 @@ import { selectDebts } from '../../feature/debts/debetSlice';
 
 const ListOfDebts = forwardRef((props: any, ref) => {
     const { data, filterBy } = props;
-    const { filteringBy } = useAppSelector(selectDebts);
+    const { filteringBy, } = useAppSelector(selectDebts);
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleSelectedFilter = (field: string) => {
+        // setLoading(true);
         filterBy(field);
         ref.current?.snapTo(0); // Hiding Bottom Sheet
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
     }
 
     const showBottomSheet = () => ref.current?.snapTo(1);
@@ -36,8 +42,10 @@ const ListOfDebts = forwardRef((props: any, ref) => {
     return (
         <>
             <FlatList
+                ListEmptyComponent={<EmptyComponent />}
                 ListHeaderComponent={
                     <Header
+                        yearFilter={(year) => filterBy(filteringBy, year)}
                         currentFilter={filteringBy}
                         onFilterPress={showBottomSheet} />}
                 data={data}
@@ -60,6 +68,21 @@ const ListOfDebts = forwardRef((props: any, ref) => {
     )
 })
 
+
+const EmptyComponent = () => {
+    return (
+        <View style={styles.emptyContainer}>
+            <Icon
+                name='party-popper'
+                size={ms(50)}
+                color={colors.mutted}
+            />
+            <Text style={styles.emptyTitle}>
+                Nenhum Gasto Nesse Ano
+            </Text>
+        </View>
+    )
+}
 
 //Bottom Sheet
 const RenderContent = ({ onFilterPress }: { onFilterPress(item: string): void }) => (
@@ -130,5 +153,16 @@ const styles = StyleSheet.create({
         textTransform: 'capitalize',
         fontSize: ms(16),
         color: colors.primary
+    },
+    emptyContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    emptyTitle: {
+        fontFamily: fonts.bold,
+        color: colors.mutted,
+        fontSize: ms(16),
+        marginTop: ms(20)
     }
 })

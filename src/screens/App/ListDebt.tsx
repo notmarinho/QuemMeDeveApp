@@ -12,6 +12,7 @@ import ListOfDebts from '@components/ListOfDebts/ListOfDebts';
 
 //LB
 import BottomSheet from 'reanimated-bottom-sheet';
+import { getYear } from 'date-fns';
 
 const ListDebts = (props: any) => {
     const sheetRef = createRef<BottomSheet>();
@@ -21,8 +22,9 @@ const ListDebts = (props: any) => {
     const dispatch = useAppDispatch();
     const { debtsFilter } = useAppSelector(selectDebts);
 
-    const filterOnRedux = (filter: 'mes' | 'devedor' | 'cartao' | 'compra') => {
-        dispatch(filterBy({ filter: filter }))
+    const filterOnRedux = (filter: 'mes' | 'devedor' | 'cartao' | 'compra', year?: number) => {
+
+        dispatch(filterBy({ filter: filter, year: year ? year : getYear(new Date()) }))
     }
 
     return (

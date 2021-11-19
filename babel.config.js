@@ -23,7 +23,8 @@ module.exports = {
           '@configs': './src/configs',
           '@utils': './src/utils',
           '@hooks': './src/hooks',
-          '@interfaces': './src/interfaces/IMainInterfaces.ts'
+          '@interfaces': './src/interfaces/IMainInterfaces.ts',
+          '@theme': './src/commounStyles.ts'
         },
       },
     ],

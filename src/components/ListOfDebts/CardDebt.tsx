@@ -50,7 +50,7 @@ const CardDebt = ({ item, navigation }: ICardDebt) => {
                     {toCurrency(item.valorParcela)}
                 </Text>
                 <Text style={styles.txtCardName}>
-                    {`${item.totalParcelas > 1 ? item.parcela + '/' + item.totalParcelas : ''}`}
+                    {`${item.parcela + '/' + item.totalParcelas}`}
                 </Text>
             </View>
         </Pressable>

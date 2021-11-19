@@ -12,16 +12,16 @@ import { colors, fonts } from '../../commounStyles';
 const hintButton = { bottom: 50, left: 50, right: 50, top: 50 }
 
 interface IChangeYear {
-    currentYear(year: number): void
+    currentYear(year: number): void,
+    arrowColor?: string;
 }
 
-const ChangeYears = ({ currentYear }: IChangeYear) => {
+const ChangeYears = ({ currentYear, arrowColor }: IChangeYear) => {
     const [year, setYear] = useState(getYear(new Date()));
 
     const addYear = () => setYear(previousCount => previousCount + 1);
 
     const lessYear = () => setYear(previousCount => previousCount - 1);
-
 
     useEffect(() => { currentYear(year) }, [year]);
 
@@ -31,7 +31,7 @@ const ChangeYears = ({ currentYear }: IChangeYear) => {
                 onPress={lessYear}
                 hitSlop={hintButton}
                 style={styles.button}>
-                <Icon name='chevron-left' size={ms(30)} color={colors.primary} />
+                <Icon name='chevron-left' size={ms(30)} color={arrowColor ? arrowColor : colors.primary} />
             </TouchableOpacity>
             <Text style={styles.title}>
                 {year}
@@ -40,7 +40,7 @@ const ChangeYears = ({ currentYear }: IChangeYear) => {
                 onPress={addYear}
                 hitSlop={hintButton}
                 style={styles.button}>
-                <Icon name='chevron-right' size={ms(30)} color={colors.primary} />
+                <Icon name='chevron-right' size={ms(30)} color={arrowColor ? arrowColor : colors.primary} />
             </TouchableOpacity>
         </View>
     )
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         height: ms(80),
         paddingHorizontal: ms(10),
     },
@@ -63,5 +63,6 @@ const styles = StyleSheet.create({
         color: colors.background
     },
     button: {
+        marginHorizontal: ms(20)
     }
 })

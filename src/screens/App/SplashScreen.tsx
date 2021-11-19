@@ -23,10 +23,10 @@ const SplashScreen = (props: any) => {
             const jsonValue = await AsyncStorage.getItem('myData');
             if (jsonValue != null) {
                 dispatch(setInitialStateOnRedux(JSON.parse(jsonValue)));
-                props.navigation.replace('Home');
+                props.navigation.replace('Dashboard');
             } else {
                 storeData()
-                props.navigation.replace('Home');
+                props.navigation.replace('Dashboard');
             }
         } catch (e) {
             // error reading value

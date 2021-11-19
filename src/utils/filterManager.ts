@@ -24,15 +24,8 @@ export const generateChartData = (list: IGasto[], year: number): number[] => {
             chartData[index] = 0
         }
     }
-    // if (semestre === 1) {
-    //     let mesesSemestre = allMonths.slice(0, 6)
-    //     console.log('Meses', mesesSemestre);
-    //     return chartData.slice(0, 6)
-    // } else {
-    //     let mesesSemestre = allMonths.slice(5, 6)
-    //     console.log('Meses', mesesSemestre);
-    //     return chartData.slice(5, 6)
-    // }
+    console.log(chartData);
+    
     return chartData;
 }
 
