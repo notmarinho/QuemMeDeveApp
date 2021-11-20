@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface IButtonProps {
   onPress(): void;
-  title: string;
+  title?: string;
 }
 
 const ButtonDevedor = (props: IButtonProps) => {
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.bold,
-    color: colors.mutted,
+    color: colors.muted,
     fontSize: ms(18),
   },
   sheetContainer: {

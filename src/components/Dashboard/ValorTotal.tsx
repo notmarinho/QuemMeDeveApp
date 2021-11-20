@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors, fonts, FontSize, Layout } from '@theme';
+import { useAppSelector } from '@hooks';
 
 const ValorTotal = () => {
+  const valorTotal = useAppSelector(state => state.debts)
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Quantidade</Text>
+      <Text style={styles.title}>Total</Text>
       <Text style={styles.valor}>421,30</Text>
     </View>
   );

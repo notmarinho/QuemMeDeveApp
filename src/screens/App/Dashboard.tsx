@@ -1,39 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, StatusBar, Dimensions } from 'react-native';
+import React from 'react';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  SafeAreaView,
+  Button,
+} from 'react-native';
 
 //Redux
 import { useAppDispatch, useAppSelector } from '@hooks';
-import { selectDebts, setYearChart } from '../../feature/debts/debetSlice';
+import { selectDebts } from '../../feature/debts/debetSlice';
 
 //CP
-import { colors, fonts, Layout } from '../../commounStyles';
+import { colors } from '../../commounStyles';
 import ValorTotal from '@components/Dashboard/ValorTotal';
 import UsuarioHeader from '@components/Dashboard/UsuarioHeader';
 import Devedores from '@components/Dashboard/Devedores';
 
 //LB
-import { ms } from 'react-native-size-matters';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+import { useNavigation } from '@react-navigation/core';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = (props: any) => {
-  const { navigation } = props;
+  const navigation = useNavigation();
   // Redux
   const dispatch = useAppDispatch();
   const { debtsList, debtsFilter, chartData } = useAppSelector(selectDebts);
 
-  const changeYear = (year: number) => {
-    dispatch(setYearChart(year));
-  };
-
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={colors.black} />
       <UsuarioHeader />
       <ValorTotal />
       <Devedores />
-      <View style={{ flex: 2 }}></View>
-    </View>
+      <View style={{ flex: 2 }}>
+        <Button
+          title="Novo Gasto"
+          onPress={() => navigation.navigate('CriarDebito')}
+        />
+        <Button title="Ver Gastos" onPress={() => console.log(debtsList)} />
+        <Button title="Limpar Dados" onPress={() => AsyncStorage.clear()} />
+      </View>
+    </SafeAreaView>
   );
 };
 

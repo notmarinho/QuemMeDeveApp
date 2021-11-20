@@ -16,30 +16,20 @@ import { ms } from 'react-native-size-matters';
 
 //CP
 import { colors, fonts } from '../../commounStyles';
+import { CartaoModel } from '@models/CartaoModel';
+import { useAppSelector } from '@hooks';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const SHEET_HEIGHT = ms(340);
 
-const cartoes = [
-  { nome: 'Nubank', cor: 'purple' },
-  { nome: 'Satander', cor: 'red' },
-  { nome: 'Next', cor: '#00e63d' },
-  { nome: 'Azul', cor: '#001e4f' },
-];
+type CardDevedorProps = {
+  item: CartaoModel;
+  selectedItem(item: CartaoModel): void;
+};
 
-interface ICartao {
-  nome: string;
-  cor: string;
-}
-
-interface ICardDevedor {
-  item: ICartao;
-  selectedItem(item: ICartao): void;
-}
-
-interface IEmptyContent {
+type IEmptyContent = {
   onPress?(): void;
-}
+};
 
 const BSDevedor = forwardRef((props: any, ref) => {
   let fall = new Animated.Value(1);
@@ -47,6 +37,8 @@ const BSDevedor = forwardRef((props: any, ref) => {
     inputRange: [0, 1],
     outputRange: [0.5, 0],
   });
+
+  const cartoes = useAppSelector(state => state.debts.cartoesList);
 
   return (
     <>
@@ -57,7 +49,11 @@ const BSDevedor = forwardRef((props: any, ref) => {
         snapPoints={[0, SHEET_HEIGHT]}
         borderRadius={10}
         renderContent={() => (
-          <RenderContent refSheet={ref} selectedItem={props.selectedItem} />
+          <RenderContent
+            refSheet={ref}
+            selectedItem={props.selectedItem}
+            cartoes={cartoes}
+          />
         )}
         {...props}
       />
@@ -76,18 +72,24 @@ const BSDevedor = forwardRef((props: any, ref) => {
   );
 });
 
-const RenderContent = (props: any) => {
+type ContentCartoesProps = {
+  refSheet: any;
+  cartoes: CartaoModel[];
+  selectedItem(item: CartaoModel): void;
+};
+
+const RenderContent = (props: ContentCartoesProps) => {
   return (
     <View style={styles.sheetContainer}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => props.refSheet.current?.snapTo(0)}>
-          <Icon name="close" size={ms(30)} color={colors.mutted} />
+          <Icon name="close" size={ms(30)} color={colors.muted} />
         </TouchableOpacity>
         <Text style={styles.title}>Cartões</Text>
         <TouchableOpacity
           // onPress={props.navigateToCreateDevedor}
           style={styles.addNew}>
-          <Icon name="credit-card-plus" size={ms(30)} color={colors.mutted} />
+          <Icon name="credit-card-plus" size={ms(30)} color={colors.muted} />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -97,7 +99,7 @@ const RenderContent = (props: any) => {
           />
         }
         contentContainerStyle={{ flexGrow: 1 }}
-        data={cartoes}
+        data={props.cartoes}
         renderItem={({ item }) => (
           <CardDevedor item={item} selectedItem={props.selectedItem} />
         )}
@@ -107,7 +109,7 @@ const RenderContent = (props: any) => {
   );
 };
 
-const CardDevedor = (props: ICardDevedor) => {
+const CardDevedor = (props: CardDevedorProps) => {
   const { item, selectedItem } = props;
   return (
     <Pressable

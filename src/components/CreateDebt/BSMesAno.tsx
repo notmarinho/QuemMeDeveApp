@@ -62,7 +62,7 @@ const RenderContent = (props: any) => {
     <View style={styles.sheetContainer}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => props.refSheet.current?.snapTo(0)}>
-          <Icon name="close" size={ms(30)} color={colors.mutted} />
+          <Icon name="close" size={ms(30)} color={colors.muted} />
         </TouchableOpacity>
         <Text style={styles.title}>Mês</Text>
         <View />

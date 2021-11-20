@@ -1,24 +1,32 @@
 import React from 'react';
+import { GastoModel } from '@models/GastoModel';
+import { fromUnixTime, lightFormat } from 'date-fns';
 import { StyleSheet, Text, View } from 'react-native';
 import { ms } from 'react-native-size-matters';
 import { FontSize, fonts } from '../../commounStyles';
+import { currencyFormat } from '@utils/auxFunctions';
 
 interface CardGastoProps {
-  descricao?: string;
-  valor?: string;
-  data?: string;
+  item: GastoModel;
 }
 
-const CardGasto: React.FC<CardGastoProps> = props => {
+const CardGasto: React.FC<CardGastoProps> = ({ item: gasto }) => {
+  const formatData = () => {
+    const data = fromUnixTime(gasto.createdAt);
+    console.log(data);
+    const dataFormatted = lightFormat(data, 'dd/MM/yyyy');
+    return dataFormatted;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
-        <Text style={styles.descricao}>Uber 99</Text>
-        <Text style={styles.cartao}>Santader</Text>
+        <Text style={styles.descricao}>{gasto.compra}</Text>
+        <Text style={styles.cartao}>{gasto.cartao.nome}</Text>
       </View>
       <View style={styles.rightContainer}>
-        <Text style={styles.valor}>10,00</Text>
-        <Text style={styles.data}>20/09/21</Text>
+        <Text style={styles.valor}> {currencyFormat(gasto.valorParcela)}</Text>
+        <Text style={styles.data}>{formatData()}</Text>
       </View>
     </View>
   );
