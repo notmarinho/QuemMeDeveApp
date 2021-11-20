@@ -1,3 +1,6 @@
+import { CartaoModel } from './CartaoModel';
+import { DevedorModel } from './DevedorModel';
+
 export type GastoModel = {
   id: string | number[];
   idParcela: string | number[];
@@ -5,12 +8,12 @@ export type GastoModel = {
   parcela: number;
   ano: number;
   createdAt: number;
-  devedor: string;
+  devedor: DevedorModel;
   valorTotal: number;
   totalParcelas: number;
   compra: string;
   valorParcela: number;
-  cartao: string;
+  cartao: CartaoModel;
   mes:
     | 'JANEIRO'
     | 'FEVEREIRO'

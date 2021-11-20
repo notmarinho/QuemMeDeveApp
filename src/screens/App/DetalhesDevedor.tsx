@@ -1,32 +1,80 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 
 import CardDevedor from '@components/DetalhesDevedor/CardDevedor';
 import DetailsSection from '@components/DetalhesDevedor/DetailsSection';
 import CardGasto from '@components/DetalhesDevedor/CardGasto';
 
+import { allMonths } from '@utils/auxFunctions';
+import { getComprasDevedor, getComprasDevedorMes } from '@utils/filterManager';
+
+import { useAppSelector } from '@hooks';
+
 import { ms } from 'react-native-size-matters';
 import { Layout } from '../../commounStyles';
 import { FlatList } from 'react-native-gesture-handler';
 import { DevedorModel } from '@models/DevedorModel';
+import { getMonth, getYear } from 'date-fns';
+import { GastoModel } from '@models/GastoModel';
+
+type DetalhesModel = {
+  valorTotalMes: number;
+  mes: string;
+  ano: number;
+};
 
 const DetalhesDevedor = ({ route }) => {
   const devedor: DevedorModel = route.params.devedor;
+  const todosGastos = useAppSelector(state => state.debts.debtsList);
+  const [mesGastos, setMesGastos] = useState<GastoModel[]>([]);
+  const [detalhesGastos, setDetalhesGastos] = useState<DetalhesModel>({
+    valorTotalMes: 0,
+    mes: 'Janeiro',
+    ano: 2021,
+  });
+
+  const getDebitosDoDevedor = useCallback(() => {
+    const mesAtual = getMonth(new Date());
+    const anoAtual = getYear(new Date());
+    const mesLabel = allMonths[mesAtual];
+    console.log(mesLabel);
+    const comprasDevedor = getComprasDevedor(todosGastos, devedor.id);
+    const comprasDoMesDevedor = getComprasDevedorMes(
+      comprasDevedor,
+      mesLabel,
+      anoAtual,
+    );
+    setMesGastos(comprasDoMesDevedor.comprasMes);
+    setDetalhesGastos({
+      valorTotalMes: comprasDoMesDevedor.valorTotalMes,
+      ano: anoAtual,
+      mes: mesLabel,
+    });
+  }, [devedor.id, todosGastos]);
+
+  useEffect(() => {
+    getDebitosDoDevedor();
+  }, [getDebitosDoDevedor]);
+
   return (
     <>
       <StatusBar backgroundColor="#0B0C0D" barStyle="light-content" />
       <View style={styles.container}>
         <View style={styles.topContainer}>
-          <CardDevedor devedor={devedor} />
+          <CardDevedor devedor={devedor} totalCompras={mesGastos.length} />
         </View>
         <View style={styles.middleContainer}>
-          <DetailsSection />
+          <DetailsSection
+            valorTotal={detalhesGastos?.valorTotalMes}
+            mes={detalhesGastos?.mes}
+            ano={detalhesGastos?.ano}
+          />
         </View>
         <View style={styles.bottomContainer}>
           <FlatList
-            data={['', '', '', '', '', '', '', '']}
+            data={mesGastos}
             contentContainerStyle={{ paddingVertical: Layout.PADDING }}
-            renderItem={() => <CardGasto />}
+            renderItem={({ item }) => <CardGasto item={item} />}
             keyExtractor={(_, idx) => String(idx)}
             showsVerticalScrollIndicator={false}
           />

@@ -26,7 +26,7 @@ import { allMonths } from '@utils/auxFunctions';
 import { monthIndexNumber } from '@utils/filterManager';
 
 //LB
-import { getTime, getYear, getMonth } from 'date-fns';
+import { getTime, getYear, getMonth, getUnixTime } from 'date-fns';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Toast from 'react-native-toast-message';
 import { ms } from 'react-native-size-matters';
@@ -37,7 +37,10 @@ import { useAppDispatch } from '@hooks';
 import { addDebt } from '../../feature/debts/debetSlice';
 
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
-import { ICartao, IGasto, IDetalheGasto } from '@interfaces';
+import { IDetalheGasto } from '@interfaces';
+import { DevedorModel } from '@models/DevedorModel';
+import { CartaoModel } from '@models/CartaoModel';
+import { GastoModel } from '@models/GastoModel';
 
 const defaultDetalhes: IDetalheGasto = {
   descricao: '',
@@ -46,9 +49,12 @@ const defaultDetalhes: IDetalheGasto = {
   valorTotal: 0,
 };
 
-const defaultCartao: ICartao = {
-  cor: '',
-  nome: '',
+const successToastConfig = {
+  type: 'success',
+  text1: 'Gasto Adicionado',
+  text2: 'Seu gasto acabou de ser registrado com sucesso!',
+  visibilityTime: 2500,
+  topOffset: 20,
 };
 
 const CreateDebt = (props: any) => {
@@ -58,9 +64,9 @@ const CreateDebt = (props: any) => {
 
   //State
   const [detalhes, setDetalhes] = useState<IDetalheGasto>(defaultDetalhes);
-  const [devedor, setDevedor] = useState<string>('');
+  const [devedor, setDevedor] = useState<DevedorModel | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [cartao, setCartao] = useState<ICartao>(defaultCartao);
+  const [cartao, setCartao] = useState<CartaoModel | undefined>();
   const [mes, setMes] = useState<string>(
     monthIndexNumber(getMonth(new Date())),
   );
@@ -105,27 +111,18 @@ const CreateDebt = (props: any) => {
     }
   };
 
-  //   const closeAllBS = () => {
-  //     BSDevedorRef.current?.snapTo(0);
-  //     BSCartaoRef.current?.snapTo(0);
-  //     BSMesRef.current?.snapTo(0);
-  //   };
-
-  const handleDevedor = (devedor: string) => {
-    setDevedor(devedor);
+  const handleDevedor = (novoDevedor: DevedorModel) => {
+    setDevedor(novoDevedor);
     toggleBS('devedor', 'close');
   };
 
-  const handleCartao = (cartao: ICartao) => {
+  const handleCartao = (novoCartao: CartaoModel) => {
     toggleBS('cartao', 'close');
-    setCartao(cartao);
+    setCartao(novoCartao);
   };
 
   const handleMes = (mesEAno: string) => {
-    console.log(mesEAno);
-
     setMes(mesEAno);
-    // setAno(mesEAno.ano);
     toggleBS('mes', 'close');
   };
 
@@ -139,18 +136,18 @@ const CreateDebt = (props: any) => {
 
   const criarGasto = async () => {
     setLoading(true);
-    let novosGastos: IGasto[] = [];
-    let gastoCriado: IGasto = {
+    let novosGastos: GastoModel[] = [];
+    let gastoCriado: GastoModel = {
       id: uuid.v4(),
       idParcela: uuid.v4(),
       compra: detalhes?.descricao,
       valorParcela: parseFloat(detalhes?.valorParcela),
       totalParcelas: detalhes?.totalParcela,
       valorTotal: detalhes?.valorTotal,
-      cartao: cartao?.nome,
+      cartao: cartao!,
       ano: 2021,
-      devedor: devedor,
-      createdAt: getTime(new Date()),
+      devedor: devedor!,
+      createdAt: getUnixTime(new Date()),
       mes: mes,
       parcela: 1,
       userId: 1,
@@ -163,7 +160,7 @@ const CreateDebt = (props: any) => {
       let anoParcela = gastoCriado.ano;
       for (
         let numParcela = 2;
-        numParcela != detalhes?.totalParcela + 1;
+        numParcela !== detalhes?.totalParcela + 1;
         numParcela++
       ) {
         // Ajustar o Mes
@@ -173,7 +170,7 @@ const CreateDebt = (props: any) => {
           anoParcela++;
         }
 
-        let novaParcela: IGasto = {
+        let novaParcela: GastoModel = {
           ...gastoCriado,
           idParcela: uuid.v4(),
           parcela: numParcela,
@@ -195,13 +192,7 @@ const CreateDebt = (props: any) => {
           .then(() => {
             //Adding to redux
             dispatch(addDebt(novosGastos));
-            Toast.show({
-              type: 'success',
-              text1: 'Gasto Adicionado',
-              text2: 'Seu gasto acabou de ser registrado com sucesso!',
-              visibilityTime: 2500,
-              topOffset: 20,
-            });
+            Toast.show(successToastConfig);
             clearState();
             props.navigation.goBack();
           })
@@ -215,8 +206,8 @@ const CreateDebt = (props: any) => {
 
   const clearState = () => {
     InputComponentRef.current?.clearState();
-    setDevedor('');
-    setCartao(defaultCartao);
+    setDevedor(undefined);
+    setCartao(undefined);
     setDetalhes(defaultDetalhes);
   };
 
@@ -232,12 +223,13 @@ const CreateDebt = (props: any) => {
           <InputValorTotal
             ref={InputComponentRef}
             returnedValue={setDetalhes}
+            clearState={clearState}
           />
           <View style={styles.buttonsContainer}>
             <View style={styles.buttonLeftContainer}>
               <ButtonDevedor
                 onPress={() => toggleBS('devedor', 'open')}
-                title={devedor}
+                title={devedor?.nome}
               />
             </View>
             <View style={styles.buttonRightContainer}>

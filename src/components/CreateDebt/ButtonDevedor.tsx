@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface IButtonProps {
   onPress(): void;
-  title: string;
+  title?: string;
 }
 
 const ButtonDevedor = (props: IButtonProps) => {

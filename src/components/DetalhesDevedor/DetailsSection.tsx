@@ -3,19 +3,25 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Layout, FontSize, fonts } from '../../commounStyles';
 
 interface DetailsSectionProps {
-  ano?: number;
-  mes?: string;
-  valorTotal?: string;
+  ano: number;
+  mes: string;
+  valorTotal: number;
 }
 
-const DetailsSection: React.FC<DetailsSectionProps> = props => {
+import { currencyFormat } from '@utils/auxFunctions';
+
+const DetailsSection: React.FC<DetailsSectionProps> = ({
+  ano,
+  mes,
+  valorTotal,
+}) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.ano}>2021</Text>
-        <Text style={styles.mes}>Setembro</Text>
+        <Text style={styles.ano}>{ano}</Text>
+        <Text style={styles.mes}>{mes}</Text>
       </View>
-      <Text style={styles.valorTotal}>4.503,30</Text>
+      <Text style={styles.valorTotal}>{currencyFormat(valorTotal)}</Text>
     </View>
   );
 };

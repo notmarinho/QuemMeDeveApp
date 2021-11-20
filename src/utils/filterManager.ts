@@ -1,92 +1,136 @@
 import _ from 'lodash';
-import { IGasto } from '@interfaces/IMainInterfaces'
 
 import { allMonths } from './auxFunctions';
+import { GastoModel } from '@models/GastoModel';
 
-
-export const filterDebts = (list: IGasto[], field: string) => {
-    const myGroup = _.groupBy(list, field);
-    const listOfItens: [string, IGasto[]][] = _.toPairs(myGroup);
-    return listOfItens;
+enum MesesAno {
+  JANEIRO,
+  FEVEREIRO,
+  MARÇO,
+  ABRIL,
+  MAIO,
+  JUNHO,
+  JULHO,
+  AGOSTO,
+  SETEMBRO,
+  OUTUBRO,
+  NOVEMBRO,
+  DEZEMBRO,
 }
 
-export const generateChartData = (list: IGasto[], year: number): number[] => {
-    const chartData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    const myYears = _.groupBy(list, 'ano');
-    const myMonths = _.groupBy(myYears[`${year}`], 'mes')
-    for (const month of allMonths) {
-        if (myMonths[month]) {
-            let index = monthIndex(month);
-            let monthSum = _.sumBy(myMonths[month], 'valorParcela');
-            chartData[index] = monthSum;
-        } else {
-            let index = monthIndex(month);
-            chartData[index] = 0
-        }
+type MesesAnoStrings = keyof typeof MesesAno;
+
+export const filterDebts = (
+  list: GastoModel[],
+  field: 'mes' | 'devedor' | 'cartao' | 'compra',
+) => {
+  const myGroup = _.groupBy(list, field);
+  const listOfItens: [string, GastoModel[]][] = _.toPairs(myGroup);
+  return listOfItens;
+};
+
+export const getComprasDevedor = (compras: GastoModel[], idDevedor: number) => {
+  const todasComprasDevedor = _.filter(compras, compra => {
+    return compra.devedor.id === idDevedor;
+  });
+  return todasComprasDevedor;
+};
+
+export const getComprasDevedorMes = (
+  comprasDevedor: GastoModel[],
+  mes: MesesAnoStrings,
+  ano: number,
+) => {
+  const comprasMes = _.filter(comprasDevedor, compra => {
+    return compra.mes === mes && compra.ano === ano;
+  });
+  const valorTotalMes = _.sumBy(comprasMes, compra => {
+    return compra.valorParcela;
+  });
+  return {
+    comprasMes,
+    valorTotalMes,
+  };
+};
+
+export const generateChartData = (
+  list: GastoModel[],
+  year: number,
+): number[] => {
+  const chartData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const myYears = _.groupBy(list, 'ano');
+  const myMonths = _.groupBy(myYears[`${year}`], 'mes');
+  for (const month of allMonths) {
+    if (myMonths[month]) {
+      let index = monthIndex(month);
+      let monthSum = _.sumBy(myMonths[month], 'valorParcela');
+      chartData[index] = monthSum;
+    } else {
+      let index = monthIndex(month);
+      chartData[index] = 0;
     }
-    console.log(chartData);
-    
-    return chartData;
-}
+  }
+  console.log(chartData);
+
+  return chartData;
+};
 
 export const monthIndexNumber = (index: any) => {
-    switch (index) {
-        case 0:
-            return 'JANEIRO'
-        case 1:
-            return 'FEVEREIRO'
-        case 2:
-            return 'MARÇO'
-        case 3:
-            return 'ABRIL'
-        case 4:
-            return 'MAIO'
-        case 5:
-            return 'JUNHO'
-        case 6:
-            return 'JULHO'
-        case 7:
-            return 'AGOSTO'
-        case 8:
-            return 'SETEMBRO'
-        case 9:
-            return 'OUTUBRO'
-        case 10:
-            return 'NOVEMBRO'
-        case 11:
-            return 'DEZEMBRO'
-        default:
-            return 0;
-    }
-}
+  switch (index) {
+    case 0:
+      return 'Janeiro';
+    case 1:
+      return 'Fevereiro';
+    case 2:
+      return 'Marco';
+    case 3:
+      return 'Abril';
+    case 4:
+      return 'Maio';
+    case 5:
+      return 'Junho';
+    case 6:
+      return 'Julho';
+    case 7:
+      return 'Agosto';
+    case 8:
+      return 'Setembro';
+    case 9:
+      return 'Outubro';
+    case 10:
+      return 'Novembro';
+    case 11:
+      return 'Dezembro';
+  }
+};
 
 export const monthIndex = (month: string) => {
-    switch (month) {
-        case 'JANEIRO':
-            return 0;
-        case 'FEVEREIRO':
-            return 1;
-        case 'MARÇO':
-            return 2;
-        case 'ABRIL':
-            return 3;
-        case 'MAIO':
-            return 4;
-        case 'JUNHO':
-            return 5;
-        case 'JULHO':
-            return 6
-        case 'AGOSTO':
-            return 7;
-        case 'SETEMBRO':
-            return 8;
-        case 'OUTUBRO':
-            return 9;
-        case 'NOVEMBRO':
-            return 10;
-        case 'DEZEMBRO':
-            return 11;
-        default:
-            return 0
-    }
-}
+  switch (month) {
+    case 'Janeiro':
+      return 0;
+    case 'Fevereiro':
+      return 1;
+    case 'Marco':
+      return 2;
+    case 'Abril':
+      return 3;
+    case 'Mario':
+      return 4;
+    case 'Junho':
+      return 5;
+    case 'Julho':
+      return 6;
+    case 'Agosto':
+      return 7;
+    case 'Setembro':
+      return 8;
+    case 'Outubro':
+      return 9;
+    case 'Novembro':
+      return 10;
+    case 'Dezembro':
+      return 11;
+    default:
+      return 0;
+  }
+};

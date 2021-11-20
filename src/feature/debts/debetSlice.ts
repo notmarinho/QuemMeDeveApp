@@ -1,29 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { generateChartData } from '@utils/filterManager';
-import { IGasto } from '@interfaces/IMainInterfaces';
 import { DebitoReduxModel } from '../../models/redux/DebitoReduxModel';
 
 //LB
 import { getYear } from 'date-fns';
 import _ from 'lodash';
+import { GastoModel } from '@models/GastoModel';
 
-interface removeDebt {
+interface RemoveDebtPayload {
   index: number;
 }
 
-interface IFilterBy {
+interface FilterByPayload {
   filter: 'mes' | 'devedor' | 'cartao' | 'compra';
   year?: number;
 }
 
-interface IEditDebit {
-  originalDebt: IGasto;
-  editedDebt: IGasto;
+interface EditDebtPayload {
+  originalDebt: GastoModel;
+  editedDebt: GastoModel;
 }
 
-interface setDebtFilter {
-  data: [string, IGasto[]][];
+interface DebtFilterPayload {
+  data: [string, GastoModel[]][];
 }
 
 const initialState: DebitoReduxModel = {
@@ -47,16 +47,16 @@ export const debtSlice = createSlice({
   initialState,
   reducers: {
     //Debts
-    addDebt: (state, action: PayloadAction<IGasto[]>) => {
+    addDebt: (state, action: PayloadAction<GastoModel[]>) => {
       let newDebts = [...state.debtsList, ...action.payload];
       state.debtsList = newDebts;
       state.chartData = generateChartData(newDebts, getYear(new Date()));
     },
-    removeDebt: (state, action: PayloadAction<removeDebt>) => {
+    removeDebt: (state, action: PayloadAction<RemoveDebtPayload>) => {
       let newDebts = [...state.debtsList].slice(action.payload.index, 1);
       state.debtsList = newDebts;
     },
-    editDebt: (state, action: PayloadAction<IEditDebit>) => {
+    editDebt: (state, action: PayloadAction<EditDebtPayload>) => {
       let index = _.findIndex(state.debtsList, {
         id: action.payload.originalDebt.id,
       });
@@ -64,7 +64,7 @@ export const debtSlice = createSlice({
       withEditedDebit[index] = action.payload.editedDebt;
       state.debtsList = withEditedDebit;
     },
-    setDebtFilter: (state, action: PayloadAction<setDebtFilter>) => {
+    setDebtFilter: (state, action: PayloadAction<DebtFilterPayload>) => {
       state.debtsFilter = action.payload.data;
     },
     setInitialStateOnRedux: (state, action) => {
@@ -74,13 +74,13 @@ export const debtSlice = createSlice({
         getYear(new Date()),
       );
     },
-    filterBy: (state, action: PayloadAction<IFilterBy>) => {
+    filterBy: (state, action: PayloadAction<FilterByPayload>) => {
       const year = action.payload.year
         ? action.payload.year
         : getYear(new Date());
       const debtsFromCurrentYear = _.filter(state.debtsList, { ano: year });
       const myGroup = _.groupBy(debtsFromCurrentYear, action.payload.filter);
-      const listOfItens: [string, IGasto[]][] = _.toPairs(myGroup);
+      const listOfItens: [string, GastoModel[]][] = _.toPairs(myGroup);
       state.debtsFilter = listOfItens;
       state.filteringBy = action.payload.filter;
     },

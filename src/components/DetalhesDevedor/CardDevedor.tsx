@@ -4,7 +4,12 @@ import { ms } from 'react-native-size-matters';
 import { DevedorModel } from '@models/DevedorModel';
 import { fonts, FontSize } from '../../commounStyles';
 
-const CardDevedor = ({ devedor }: { devedor: DevedorModel }) => {
+type CardDevedorProps = {
+  devedor: DevedorModel;
+  totalCompras: number;
+};
+
+const CardDevedor: React.FC<CardDevedorProps> = ({ devedor, totalCompras }) => {
   return (
     <View style={styles.container}>
       <View style={styles.devedorImageContainer}>
@@ -18,7 +23,8 @@ const CardDevedor = ({ devedor }: { devedor: DevedorModel }) => {
       <View style={styles.infoContainer}>
         <Text style={styles.devedorName}>{devedor.nome}</Text>
         <View style={styles.detailContainer}>
-          <Text style={styles.detalhes}>Total de 40 compras.</Text>
+          <Text
+            style={styles.detalhes}>{`Total de ${totalCompras} compras.`}</Text>
         </View>
       </View>
     </View>
