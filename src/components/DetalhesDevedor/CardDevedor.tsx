@@ -1,20 +1,22 @@
 import React from 'react';
-import { StyleSheet, Image, View, Text} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { ms } from 'react-native-size-matters';
-import { fonts, FontSize, Layout } from '../../commounStyles';
+import { DevedorModel } from '@models/DevedorModel';
+import { fonts, FontSize } from '../../commounStyles';
 
-const CardDevedor = () => {
+const CardDevedor = ({ devedor }: { devedor: DevedorModel }) => {
   return (
     <View style={styles.container}>
       <View style={styles.devedorImageContainer}>
-        <Image
+        {/* <Image
           source={{ uri: 'google.com' }}
           resizeMode="contain"
           style={styles.devedorImage}
-        />
+        /> */}
+        <Text>{devedor.sigla}</Text>
       </View>
       <View style={styles.infoContainer}>
-        <Text style={styles.devedorName}>Mateus M.</Text>
+        <Text style={styles.devedorName}>{devedor.nome}</Text>
         <View style={styles.detailContainer}>
           <Text style={styles.detalhes}>Total de 40 compras.</Text>
         </View>
@@ -37,6 +39,8 @@ const styles = StyleSheet.create({
     height: ms(70),
     borderRadius: ms(10),
     backgroundColor: '#FBFBFB',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   devedorImage: {
     width: '100%',

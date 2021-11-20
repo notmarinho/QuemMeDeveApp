@@ -1,40 +1,49 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Layout, fonts, FontSize, colors } from '@theme';
 import { ms } from 'react-native-size-matters';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useAppSelector } from '@hooks';
+import { useNavigation } from '@react-navigation/core';
+import { DevedorModel } from 'src/models/DevedorModel';
 
 const ButtonAdicionarDevedor = () => {
   return (
-    <View
-      style={[
-        styles.cardDevedor,
-        {
-          backgroundColor: colors.black,
-          borderWidth: 1,
-          borderColor: colors.background,
-        },
-      ]}>
+    <View style={[styles.cardDevedor, styles.cardAddDevedor]}>
       <Icon name="plus" size={ms(30)} color={colors.background} />
     </View>
   );
 };
 
 const Devedores = () => {
+  const devedores = useAppSelector(state => state.debts.devedorList);
+  const navigation = useNavigation();
+
+  const devedorRow = (data: { item: DevedorModel }) => {
+    return (
+      <Pressable
+        onPress={() =>
+          navigation.navigate('DetalhesDevedor', { devedor: data.item })
+        }
+        style={styles.cardDevedor}>
+        <Text>{data.item.sigla}</Text>
+      </Pressable>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Devedores</Text>
       <FlatList
-        data={['', '', '', '', '']}
+        data={devedores}
         horizontal
         contentContainerStyle={styles.flatlist}
+        showsHorizontalScrollIndicator={false}
         keyExtractor={(_, idx) => String(idx)}
         ListHeaderComponent={ButtonAdicionarDevedor}
-        renderItem={({ item }) => {
-          return <View style={styles.cardDevedor}></View>;
-        }}
+        renderItem={devedorRow}
       />
     </View>
   );
@@ -54,6 +63,11 @@ const styles = StyleSheet.create({
     color: colors.background,
     marginLeft: Layout.PADDING,
     marginBottom: ms(20),
+  },
+  cardAddDevedor: {
+    backgroundColor: colors.black,
+    borderWidth: 1,
+    borderColor: colors.background,
   },
   cardDevedor: {
     width: 100,

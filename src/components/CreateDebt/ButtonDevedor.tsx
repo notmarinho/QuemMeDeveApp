@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: fonts.bold,
-    color: colors.mutted,
+    color: colors.muted,
     fontSize: ms(18),
   },
   sheetContainer: {

@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.bold,
     fontSize: ms(18),
-    color: colors.mutted,
+    color: colors.muted,
   },
 });

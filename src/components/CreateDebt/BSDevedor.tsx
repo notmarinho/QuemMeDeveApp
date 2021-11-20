@@ -13,12 +13,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Animated, { interpolateNode } from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { colors, fonts } from '../../commounStyles';
+import { useAppSelector } from '@hooks';
+import { DevedorModel } from '@models/DevedorModel';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const SHEET_HEIGHT = ms(200);
 
 interface IDevedor {
-  item: string;
+  item: DevedorModel;
   selectedItem(item: any): void;
 }
 
@@ -28,6 +30,7 @@ interface IEmptyContent {
 
 const BSDevedor = forwardRef((props: any, ref) => {
   let fall = new Animated.Value(1);
+  const devedores = useAppSelector(state => state.debts.devedorList);
   const animatedShadowOpacity = interpolateNode(fall, {
     inputRange: [0, 1],
     outputRange: [0.5, 0],
@@ -42,7 +45,11 @@ const BSDevedor = forwardRef((props: any, ref) => {
         snapPoints={[0, SHEET_HEIGHT]}
         borderRadius={10}
         renderContent={() => (
-          <RenderContent refSheet={ref} selectedItem={props.selectedItem} />
+          <RenderContent
+            refSheet={ref}
+            selectedItem={props.selectedItem}
+            devedores={devedores}
+          />
         )}
         {...props}
       />
@@ -66,7 +73,7 @@ const RenderContent = (props: any) => {
     <View style={styles.sheetContainer}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => props.refSheet.current?.snapTo(0)}>
-          <Icon name="close" size={ms(30)} color={colors.mutted} />
+          <Icon name="close" size={ms(30)} color={colors.muted} />
         </TouchableOpacity>
         <Text style={styles.title}>Meus devedores</Text>
         <TouchableOpacity
@@ -75,7 +82,7 @@ const RenderContent = (props: any) => {
           <Icon
             name="account-multiple-plus"
             size={ms(30)}
-            color={colors.mutted}
+            color={colors.muted}
           />
         </TouchableOpacity>
       </View>
@@ -83,7 +90,7 @@ const RenderContent = (props: any) => {
         horizontal
         ListEmptyComponent={<EmptyListContent />}
         contentContainerStyle={styles.flatlist}
-        data={['Mateus', 'Marcos', 'Marley']}
+        data={props.devedores}
         renderItem={({ item }) => (
           <CardDevedor item={item} selectedItem={props.selectedItem} />
         )}
@@ -94,19 +101,15 @@ const RenderContent = (props: any) => {
 };
 
 const CardDevedor = (props: IDevedor) => {
-  const { item, selectedItem } = props;
+  const { item: devedor, selectedItem } = props;
   return (
     <Pressable
-      onPress={() => selectedItem(item)}
+      onPress={() => selectedItem(devedor)}
       style={styles.cardDevedorContainer}>
       <View style={styles.imageDevedorContainer}>
-        <Text style={styles.devedorSigla}>
-          {item[0] + item[item.length - 1]}
-        </Text>
+        <Text style={styles.devedorSigla}>{devedor.sigla}</Text>
       </View>
-      <Text style={styles.cardTitle}>
-        {item ? item : 'Erro ao encontrar nome'}
-      </Text>
+      <Text style={styles.cardTitle}>{devedor.nome}</Text>
     </Pressable>
   );
 };
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: ms(16),
     paddingTop: ms(12),
     // borderBottomWidth: 1.5,
-    borderColor: colors.mutted,
+    borderColor: colors.muted,
   },
   addNew: {
     flexDirection: 'row',
@@ -187,7 +190,7 @@ const styles = StyleSheet.create({
   devedorSigla: {
     fontSize: ms(20),
     textTransform: 'uppercase',
-    color: colors.mutted,
+    color: colors.muted,
   },
   emptyContainer: {
     height: ms(200),

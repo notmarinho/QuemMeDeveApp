@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   txtSortBy: {
     fontSize: ms(16),
-    color: colors.mutted,
+    color: colors.muted,
   },
   txtSelectSort: {
     fontFamily: fonts.bold,

@@ -94,7 +94,7 @@ const DebtDetais = ({ route }: { route: any }) => {
           {editedDebt.picture ? (
             <Image style={styles.image} source={{ uri: editedDebt.picture }} />
           ) : (
-            <Icon name="camera" size={ms(30)} color={colors.mutted} />
+            <Icon name="camera" size={ms(30)} color={colors.muted} />
           )}
         </Pressable>
         <View style={styles.detailContainer}>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   txtValue: {
     fontFamily: fonts.bold,
-    color: colors.mutted,
+    color: colors.muted,
     fontSize: ms(20),
   },
   button: {

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Keyboard,
   ActivityIndicator,
+  SafeAreaView,
 } from 'react-native';
 
 import { colors, fonts } from '../../commounStyles';
@@ -226,7 +227,7 @@ const CreateDebt = (props: any) => {
   return (
     <>
       <StatusBar backgroundColor={colors.card} barStyle="dark-content" />
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View>
           <InputValorTotal
             ref={InputComponentRef}
@@ -263,7 +264,7 @@ const CreateDebt = (props: any) => {
             <Text style={styles.buttonRegistrarLabel}>Registrar</Text>
           )}
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
       <BSDevedor selectedItem={handleDevedor} ref={BSDevedorRef} />
       <BSCartao selectedItem={handleCartao} ref={BSCartaoRef} />
       <BSMesAno selectedItem={handleMes} ref={BSMesRef} />

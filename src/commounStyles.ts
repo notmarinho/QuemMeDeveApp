@@ -8,15 +8,15 @@ export const colors = {
   primary: '#43269D',
   primaryDark: '#0e4878',
   primaryLight: '#85beed',
-  mutted: '#bfbfc2',
+  muted: '#bfbfc2',
   seconday: '#ca5a63',
   black: '#0B0C0D',
 };
 
 export const fonts = {
-  bold: 'Inter-Bold',
-  regular: 'Inter-Medium',
-  light: 'Inter-Light',
+  bold: 'Poppins-Bold',
+  regular: 'Poppins-Medium',
+  light: 'Poppins-Light',
 };
 
 export const FontSize = {

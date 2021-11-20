@@ -8,14 +8,16 @@ import CardGasto from '@components/DetalhesDevedor/CardGasto';
 import { ms } from 'react-native-size-matters';
 import { Layout } from '../../commounStyles';
 import { FlatList } from 'react-native-gesture-handler';
+import { DevedorModel } from '@models/DevedorModel';
 
-const Dashboard = () => {
+const DetalhesDevedor = ({ route }) => {
+  const devedor: DevedorModel = route.params.devedor;
   return (
     <>
       <StatusBar backgroundColor="#0B0C0D" barStyle="light-content" />
       <View style={styles.container}>
         <View style={styles.topContainer}>
-          <CardDevedor />
+          <CardDevedor devedor={devedor} />
         </View>
         <View style={styles.middleContainer}>
           <DetailsSection />
@@ -34,7 +36,7 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default DetalhesDevedor;
 
 const styles = StyleSheet.create({
   container: {

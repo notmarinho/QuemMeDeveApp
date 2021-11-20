@@ -49,11 +49,11 @@ export interface IDetalheGasto {
   descricao: string;
 }
 
-export interface IReduxState {
+export type DebitoReduxModel = {
   filteringBy: 'mes' | 'devedor' | 'cartao' | 'compra';
   debtsList: IGasto[];
   debtsFilter: [string, IGasto[]][];
   devedorList: IDevedor[];
   cartoesList: ICartao[];
   chartData: number[];
-}
+};

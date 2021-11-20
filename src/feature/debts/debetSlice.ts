@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { generateChartData } from '@utils/filterManager';
-import { IGasto, IReduxState } from '@interfaces/IMainInterfaces';
+import { IGasto } from '@interfaces/IMainInterfaces';
+import { DebitoReduxModel } from '../../models/redux/DebitoReduxModel';
 
 //LB
 import { getYear } from 'date-fns';
@@ -25,12 +26,19 @@ interface setDebtFilter {
   data: [string, IGasto[]][];
 }
 
-const initialState: IReduxState = {
+const initialState: DebitoReduxModel = {
   filteringBy: 'mes',
   debtsList: [],
   debtsFilter: [],
-  devedorList: [],
-  cartoesList: [],
+  devedorList: [
+    { id: 1, nome: 'Marcos', sigla: 'MA' },
+    { id: 2, nome: 'Albenize', sigla: 'AB' },
+  ],
+  cartoesList: [
+    { id: 1, nome: 'Nubank', cor: 'purple' },
+    { id: 2, nome: 'Satander', cor: 'red' },
+    { id: 3, nome: 'Next', cor: '#00e63d' },
+  ],
   chartData: [],
 };
 

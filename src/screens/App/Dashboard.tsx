@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, StatusBar, Dimensions } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  Dimensions,
+  SafeAreaView,
+  Button,
+} from 'react-native';
 
 //Redux
 import { useAppDispatch, useAppSelector } from '@hooks';
@@ -12,12 +19,10 @@ import UsuarioHeader from '@components/Dashboard/UsuarioHeader';
 import Devedores from '@components/Dashboard/Devedores';
 
 //LB
-import { ms } from 'react-native-size-matters';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+import { useNavigation } from '@react-navigation/core';
 
 const Home = (props: any) => {
-  const { navigation } = props;
+  const navigation = useNavigation();
   // Redux
   const dispatch = useAppDispatch();
   const { debtsList, debtsFilter, chartData } = useAppSelector(selectDebts);
@@ -27,13 +32,18 @@ const Home = (props: any) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={colors.black} />
       <UsuarioHeader />
       <ValorTotal />
       <Devedores />
-      <View style={{ flex: 2 }}></View>
-    </View>
+      <View style={{ flex: 2 }}>
+        <Button
+          title="Novo Gasto"
+          onPress={() => navigation.navigate('CriarDebito')}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
