@@ -21,7 +21,14 @@ const CardGasto: React.FC<CardGastoProps> = ({ item: gasto }) => {
     <View style={styles.container}>
       <View style={styles.leftContainer}>
         <Text style={styles.descricao}>{gasto.compra}</Text>
-        <Text style={styles.cartao}>{gasto.cartao.nome}</Text>
+        <View style={styles.columnContainer}>
+          <Text style={styles.cartao}>{gasto.cartao.nome}</Text>
+          {gasto.totalParcelas > 1 && (
+            <Text style={styles.parcelas}>
+              {gasto.parcela}/{gasto.totalParcelas}
+            </Text>
+          )}
+        </View>
       </View>
       <View style={styles.rightContainer}>
         <Text style={styles.valor}> {currencyFormat(gasto.valorParcela)}</Text>
@@ -43,6 +50,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: 'lightgray',
   },
+  columnContainer: {
+    flexDirection: 'row',
+  },
   leftContainer: {},
   rightContainer: {},
   descricao: {
@@ -57,6 +67,10 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontSize: FontSize.SMALL,
     fontFamily: fonts.bold,
+  },
+  parcelas: {
+    fontSize: FontSize.THIN,
+    marginLeft: ms(5),
   },
   data: {
     textAlign: 'right',

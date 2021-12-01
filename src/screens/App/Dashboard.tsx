@@ -38,7 +38,10 @@ const Home = (props: any) => {
           title="Novo Gasto"
           onPress={() => navigation.navigate('CriarDebito')}
         />
-        <Button title="Ver Gastos" onPress={() => console.log(debtsList)} />
+        <Button
+          title="Novo Cartao"
+          onPress={() => navigation.navigate('CriarCartao')}
+        />
         <Button title="Limpar Dados" onPress={() => AsyncStorage.clear()} />
       </View>
     </SafeAreaView>

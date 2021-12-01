@@ -1,5 +1,5 @@
 export type CartaoModel = {
-  id: number;
+  id: string;
   nome: string;
   cor: string;
 };

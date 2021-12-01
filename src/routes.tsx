@@ -13,6 +13,7 @@ import DebtDetails from './screens/App/DebtDetails';
 import ListDebts from './screens/App/ListDebt';
 import DetalhesDevedor from './screens/App/DetalhesDevedor';
 import CreateDevedor from './screens/App/CreateDevedor';
+import CreateCard from './screens/App/CreateCartao';
 import Home from './screens/App/Dashboard';
 import Configuration from './screens/App/Configuration';
 
@@ -33,6 +34,7 @@ const App = () => {
         <Stack.Screen name="ListarDebito" component={ListDebts} />
         <Stack.Screen name="DetalhesDebito" component={DebtDetails} />
         <Stack.Screen name="CriarDevedor" component={CreateDevedor} />
+        <Stack.Screen name="CriarCartao" component={CreateCard} />
         <Stack.Screen name="Configuracoes" component={Configuration} />
       </Stack.Navigator>
     </NavigationContainer>

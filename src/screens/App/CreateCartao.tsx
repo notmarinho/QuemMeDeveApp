@@ -1,87 +1,126 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from 'react';
-import { StyleSheet, View, Dimensions, ScrollView } from 'react-native';
-import { colors, fonts } from '../../commonStyles';
-import Animated from 'react-native-reanimated';
+import Button from '@components/Button';
+import { CartaoModel } from '@models/CartaoModel';
+import React, { useRef, useState } from 'react';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  StatusBar,
+  TextInput,
+  Text,
+} from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
+import ColorPicker, { ColorPickerProps } from 'react-native-wheel-color-picker';
+import uuid from 'react-native-uuid';
+import { colors, fonts, FontSize, Layout } from '../../commonStyles';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const ITEM_WIDTH = 150;
-const ITEM_HEIGHT = 50;
-const data = [
-  'Janeiro',
-  'Fevereiro',
-  'Março',
-  'Abril',
-  'Maio',
-  'Junho',
-  'Julho',
-  'Agosto',
-  'Setembro',
-  'Outubro',
-  'Novembro',
-  'Dezembro',
-];
+import { addCartao } from '../../feature/debts/debetSlice';
+import { useAppDispatch } from '@hooks';
+import { useNavigation } from '@react-navigation/core';
 
 const CreateCartao = () => {
-  const CardMonth = ({ item }) => {
-    // const inputRange = [-1, 0, ITEM_HEIGHT * key, ITEM_HEIGHT * (key + 2)];
+  const colorPickerRef = useRef<ColorPickerProps>();
+  const [cardColor, setCardColor] = useState('#fff');
+  const [nomeCartao, setNomeCartao] = useState('');
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation();
 
-    // const scale = scrollX.interpolate({
-    //   inputRange,
-    //   outputRange: [0.8, 0.8, 1.8, 1],
-    //   extrapolate: 'clamp',
-    // });
+  const getColorSelected = () => {
+    const { h, s, v } = colorPickerRef.current?.color;
+    let hexColor = hslToHex(h, v, s);
+    setCardColor(hexColor);
+  };
 
-    // const opacity = scrollX.interpolate({
-    //   inputRange,
-    //   outputRange: [0.2, 0.2, 1, 0.2],
-    //   extrapolate: 'clamp',
-    // });
+  const registerCard = () => {
+    if (nomeCartao.length > 1 && cardColor !== '#fff') {
+      let novoCartao: CartaoModel = {
+        id: uuid.v4().toString(),
+        nome: nomeCartao,
+        cor: cardColor,
+      };
+      dispatch(addCartao(novoCartao));
+      navigation.goBack();
+    }
+  };
 
-    return (
-      <Animated.View style={[styles.titleContainer]}>
-        <Animated.Text style={[styles.title]}>{item}</Animated.Text>
-      </Animated.View>
-    );
+  const hslToHex = (h, s, l) => {
+    l /= 100;
+    const a = (s * Math.min(l, 1 - l)) / 100;
+    const f = n => {
+      const k = (n + h / 30) % 12;
+      const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+      return Math.round(255 * color)
+        .toString(16)
+        .padStart(2, '0'); // convert to Hex and prefix "0" if needed
+    };
+    return `#${f(0)}${f(8)}${f(4)}`;
   };
 
   return (
-    <View style={styles.container}>
-      <Animated.ScrollView
-        contentContainerStyle={styles.flatlist}
-        snapToInterval={ITEM_WIDTH}
-        decelerationRate="fast"
-        horizontal>
-        {data.map((item, index) => (
-          <CardMonth item={item} key={index} />
-        ))}
-      </Animated.ScrollView>
-    </View>
+    <SafeAreaView
+      style={[styles.safeContainer, { backgroundColor: cardColor }]}>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Nome do Cartão"
+            style={styles.input}
+            value={nomeCartao}
+            autoFocus
+            onChangeText={setNomeCartao}
+            autoCapitalize="words"
+            placeholderTextColor={colors.muted}
+          />
+        </View>
+        <View style={styles.colorContainer}>
+          <Text style={styles.input}>Cor do cartão</Text>
+          <ColorPicker
+            ref={colorPickerRef}
+            onColorChangeComplete={getColorSelected}
+            thumbSize={moderateScale(40)}
+            sliderSize={moderateScale(40)}
+            noSnap={false}
+            swatchesOnly={true}
+            swatchesLast={false}
+            swatches={true}
+            discrete={false}
+          />
+        </View>
+        <Button title="Cadastrar" onPress={registerCard} />
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default CreateCartao;
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: colors.black,
+  },
   container: {
     flex: 1,
+    padding: Layout.PADDING,
+    alignItems: 'center',
+    // backgroundColor: colors.black,
   },
-  titleContainer: {
-    width: ITEM_WIDTH,
-    height: ITEM_HEIGHT,
-    // alignItems: 'center',
+  titleColor: {
+    fontFamily: fonts.regular,
+    fontSize: FontSize.LARGE,
+    color: colors.muted,
   },
-  title: {
+  inputContainer: {
+    flex: 1,
+    width: '100%',
+  },
+  colorContainer: {
+    flex: 1,
+  },
+  input: {
+    fontFamily: fonts.regular,
+    fontSize: FontSize.LARGE,
     color: colors.primary,
-    fontFamily: fonts.bold,
-    fontSize: 20,
-    marginRight: 20,
-  },
-  flatlist: {
-    // paddingHorizontal: 30,
-    // paddingVertical: 40,
-    paddingRight: ITEM_WIDTH * 1.5,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
 });

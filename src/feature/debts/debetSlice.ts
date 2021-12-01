@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //Models
 import { GastoModel } from '@models/GastoModel';
 import { DevedorModel } from '@models/DevedorModel';
+import { CartaoModel } from '@models/CartaoModel';
 
 interface RemoveDebtPayload {
   index: number;
@@ -35,11 +36,7 @@ const initialState: DebitoReduxModel = {
   debtsList: [],
   debtsFilter: [],
   devedorList: [],
-  cartoesList: [
-    { id: 1, nome: 'Nubank', cor: 'purple' },
-    { id: 2, nome: 'Satander', cor: 'red' },
-    { id: 3, nome: 'Next', cor: '#00e63d' },
-  ],
+  cartoesList: [],
   chartData: [],
 };
 
@@ -95,6 +92,12 @@ export const debtSlice = createSlice({
       AsyncStorage.setItem('@devedores', stringListaDevedor);
       state.devedorList = comNovoDevedor;
     },
+    addCartao: (state, action: PayloadAction<CartaoModel>) => {
+      let comNovoCartao = [...state.cartoesList, action.payload];
+      let stringListCartoes = JSON.stringify(comNovoCartao);
+      AsyncStorage.setItem('@cartoes', stringListCartoes);
+      state.cartoesList = comNovoCartao;
+    },
   },
 });
 
@@ -107,6 +110,7 @@ export const {
   filterBy,
   setYearChart,
   addDevedor,
+  addCartao,
 } = debtSlice.actions;
 export const selectDebts = (state: RootState) => state.debts;
 

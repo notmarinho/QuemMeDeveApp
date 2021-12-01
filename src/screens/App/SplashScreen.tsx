@@ -26,6 +26,14 @@ const SplashScreen = (props: any) => {
     return null;
   };
 
+  const getCartoes = async () => {
+    const stringCartoes = await AsyncStorage.getItem('@cartoes');
+    if (stringCartoes != null) {
+      return JSON.parse(stringCartoes);
+    }
+    return null;
+  };
+
   const getInitialData = async () => {
     const stringInitialValues = await AsyncStorage.getItem('@initialData');
     if (stringInitialValues != null) {
@@ -36,16 +44,18 @@ const SplashScreen = (props: any) => {
 
   const getData = useCallback(async () => {
     try {
-      const initialData = await getInitialData();
+      const initialData: DebitoReduxModel = await getInitialData();
       const listaDevedores = await getDevedores();
+      const listaCartoes = await getCartoes();
 
       console.log('Devedores: ', listaDevedores);
       if (initialData) {
-        if (listaDevedores) {
-          initialData.devedorList = listaDevedores;
-        } else {
-          initialData.devedorList = [];
-        }
+        listaDevedores
+          ? (initialData.devedorList = listaDevedores)
+          : (initialData.devedorList = []);
+        listaCartoes
+          ? (initialData.cartoesList = listaCartoes)
+          : (initialData.cartoesList = []);
         dispatch(setInitialStateOnRedux(initialData));
       } else {
         storeData();

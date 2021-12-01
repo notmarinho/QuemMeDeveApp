@@ -18,6 +18,7 @@ import { ms } from 'react-native-size-matters';
 import { colors, fonts } from '../../commonStyles';
 import { CartaoModel } from '@models/CartaoModel';
 import { useAppSelector } from '@hooks';
+import { useNavigation } from '@react-navigation/core';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const SHEET_HEIGHT = ms(340);
@@ -79,6 +80,10 @@ type ContentCartoesProps = {
 };
 
 const RenderContent = (props: ContentCartoesProps) => {
+  const navigation = useNavigation();
+
+  const navigateToCreateCartao = () => navigation.navigate('CriarCartao');
+
   return (
     <View style={styles.sheetContainer}>
       <View style={styles.header}>
@@ -87,16 +92,14 @@ const RenderContent = (props: ContentCartoesProps) => {
         </TouchableOpacity>
         <Text style={styles.title}>Cartões</Text>
         <TouchableOpacity
-          // onPress={props.navigateToCreateDevedor}
+          onPress={navigateToCreateCartao}
           style={styles.addNew}>
           <Icon name="credit-card-plus" size={ms(30)} color={colors.muted} />
         </TouchableOpacity>
       </View>
       <FlatList
         ListEmptyComponent={
-          <EmptyListContent
-          // onPress={props.navigateToCreateDevedor}
-          />
+          <EmptyListContent onPress={navigateToCreateCartao} />
         }
         contentContainerStyle={{ flexGrow: 1 }}
         data={props.cartoes}
@@ -125,7 +128,7 @@ const EmptyListContent = (props: IEmptyContent) => {
   const { onPress } = props;
   return (
     <Pressable onPress={onPress} style={styles.emptyContainer}>
-      <Icon name="credit-card-plus" size={ms(50)} color={colors.background} />
+      <Icon name="credit-card-plus" size={ms(50)} color={colors.muted} />
       <Text style={styles.emptyMessage}>
         Adicione o cartão para registrar os gastos feitos nele!
       </Text>
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
   emptyMessage: {
     fontFamily: fonts.bold,
     fontSize: ms(20),
-    color: colors.background,
+    color: colors.muted,
     textAlign: 'center',
     paddingHorizontal: ms(30),
   },
