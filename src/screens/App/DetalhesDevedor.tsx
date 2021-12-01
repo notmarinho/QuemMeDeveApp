@@ -11,7 +11,7 @@ import { getComprasDevedor, getComprasDevedorMes } from '@utils/filterManager';
 import { useAppSelector } from '@hooks';
 
 import { ms } from 'react-native-size-matters';
-import { Layout } from '../../commounStyles';
+import { Layout } from '../../commonStyles';
 import { FlatList } from 'react-native-gesture-handler';
 import { DevedorModel } from '@models/DevedorModel';
 import { getMonth, getYear } from 'date-fns';
@@ -37,7 +37,6 @@ const DetalhesDevedor = ({ route }) => {
     const mesAtual = getMonth(new Date());
     const anoAtual = getYear(new Date());
     const mesLabel = allMonths[mesAtual];
-    console.log(mesLabel);
     const comprasDevedor = getComprasDevedor(todosGastos, devedor.id);
     const comprasDoMesDevedor = getComprasDevedorMes(
       comprasDevedor,

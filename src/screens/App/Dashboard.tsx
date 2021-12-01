@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '@hooks';
 import { selectDebts } from '../../feature/debts/debetSlice';
 
 //CP
-import { colors } from '../../commounStyles';
+import { colors } from '../../commonStyles';
 import ValorTotal from '@components/Dashboard/ValorTotal';
 import UsuarioHeader from '@components/Dashboard/UsuarioHeader';
 import Devedores from '@components/Dashboard/Devedores';

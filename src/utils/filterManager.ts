@@ -29,7 +29,7 @@ export const filterDebts = (
   return listOfItens;
 };
 
-export const getComprasDevedor = (compras: GastoModel[], idDevedor: number) => {
+export const getComprasDevedor = (compras: GastoModel[], idDevedor: string) => {
   const todasComprasDevedor = _.filter(compras, compra => {
     return compra.devedor.id === idDevedor;
   });

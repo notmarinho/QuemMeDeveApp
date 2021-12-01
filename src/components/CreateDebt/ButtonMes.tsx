@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ms } from 'react-native-size-matters';
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface IButtonProps {

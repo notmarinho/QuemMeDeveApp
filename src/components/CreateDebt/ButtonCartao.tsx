@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ms } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 
 interface IButtonProps {
   onPress(): void;

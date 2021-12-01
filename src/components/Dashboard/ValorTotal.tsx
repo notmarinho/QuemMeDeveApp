@@ -4,7 +4,7 @@ import { colors, fonts, FontSize, Layout } from '@theme';
 import { useAppSelector } from '@hooks';
 
 const ValorTotal = () => {
-  const valorTotal = useAppSelector(state => state.debts)
+  const valorTotal = useAppSelector(state => state.debts);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Total</Text>

@@ -15,7 +15,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import { ms } from 'react-native-size-matters';
 
 //CP
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 import { CartaoModel } from '@models/CartaoModel';
 import { useAppSelector } from '@hooks';
 

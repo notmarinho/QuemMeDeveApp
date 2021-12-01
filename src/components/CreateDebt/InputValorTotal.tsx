@@ -19,7 +19,7 @@ import { FakeCurrencyInput } from 'react-native-currency-input';
 import { ms } from 'react-native-size-matters';
 
 // CP
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 import { IDetalheGasto } from '@interfaces';
 
 // CONST

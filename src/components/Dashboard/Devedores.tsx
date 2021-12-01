@@ -10,10 +10,13 @@ import { useNavigation } from '@react-navigation/core';
 import { DevedorModel } from 'src/models/DevedorModel';
 
 const ButtonAdicionarDevedor = () => {
+  const navigation = useNavigation();
   return (
-    <View style={[styles.cardDevedor, styles.cardAddDevedor]}>
+    <Pressable
+      onPress={() => navigation.navigate('CriarDevedor')}
+      style={[styles.cardDevedor, styles.cardAddDevedor]}>
       <Icon name="plus" size={ms(30)} color={colors.background} />
-    </View>
+    </Pressable>
   );
 };
 

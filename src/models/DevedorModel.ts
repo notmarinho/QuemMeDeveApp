@@ -1,5 +1,5 @@
 export type DevedorModel = {
-  id: number;
+  id: string;
   nome: string;
   sigla: string;
 };

@@ -12,9 +12,10 @@ import { ms } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Animated, { interpolateNode } from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 import { useAppSelector } from '@hooks';
 import { DevedorModel } from '@models/DevedorModel';
+import { useNavigation } from '@react-navigation/core';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const SHEET_HEIGHT = ms(200);
@@ -69,6 +70,7 @@ const BSDevedor = forwardRef((props: any, ref) => {
 });
 
 const RenderContent = (props: any) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.sheetContainer}>
       <View style={styles.header}>
@@ -77,7 +79,7 @@ const RenderContent = (props: any) => {
         </TouchableOpacity>
         <Text style={styles.title}>Meus devedores</Text>
         <TouchableOpacity
-          // onPress={props.navigateToCreateDevedor}
+          onPress={() => navigation.navigate('CriarDevedor')}
           style={styles.addNew}>
           <Icon
             name="account-multiple-plus"

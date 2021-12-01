@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Layout, FontSize, fonts } from '../../commounStyles';
+import { Layout, FontSize, fonts } from '../../commonStyles';
 
 interface DetailsSectionProps {
   ano: number;

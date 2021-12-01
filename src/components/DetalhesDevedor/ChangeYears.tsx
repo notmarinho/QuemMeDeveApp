@@ -7,7 +7,7 @@ import { ms } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //CP
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 
 const hintButton = { bottom: 50, left: 50, right: 50, top: 50 }
 

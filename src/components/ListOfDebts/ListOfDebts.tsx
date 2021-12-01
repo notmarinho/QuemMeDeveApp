@@ -16,7 +16,7 @@ import { ms } from 'react-native-size-matters';
 //CP
 import CardSection from './CardSection';
 import Header from './Header';
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //Redux

@@ -6,7 +6,11 @@ import { DebitoReduxModel } from '../../models/redux/DebitoReduxModel';
 //LB
 import { getYear } from 'date-fns';
 import _ from 'lodash';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+//Models
 import { GastoModel } from '@models/GastoModel';
+import { DevedorModel } from '@models/DevedorModel';
 
 interface RemoveDebtPayload {
   index: number;
@@ -30,10 +34,7 @@ const initialState: DebitoReduxModel = {
   filteringBy: 'mes',
   debtsList: [],
   debtsFilter: [],
-  devedorList: [
-    { id: 1, nome: 'Marcos', sigla: 'MA' },
-    { id: 2, nome: 'Albenize', sigla: 'AB' },
-  ],
+  devedorList: [],
   cartoesList: [
     { id: 1, nome: 'Nubank', cor: 'purple' },
     { id: 2, nome: 'Satander', cor: 'red' },
@@ -69,6 +70,7 @@ export const debtSlice = createSlice({
     },
     setInitialStateOnRedux: (state, action) => {
       state.debtsList = action.payload.debtsList;
+      state.devedorList = action.payload.devedorList;
       state.chartData = generateChartData(
         action.payload.debtsList,
         getYear(new Date()),
@@ -87,9 +89,12 @@ export const debtSlice = createSlice({
     setYearChart: (state, action) => {
       state.chartData = generateChartData(state.debtsList, action.payload);
     },
-    // Card
-    // addCard: state => {},
-    // removeCard: (state, action) => {},
+    addDevedor: (state, action: PayloadAction<DevedorModel>) => {
+      let comNovoDevedor = [...state.devedorList, action.payload];
+      let stringListaDevedor = JSON.stringify(comNovoDevedor);
+      AsyncStorage.setItem('@devedores', stringListaDevedor);
+      state.devedorList = comNovoDevedor;
+    },
   },
 });
 
@@ -101,6 +106,7 @@ export const {
   editDebt,
   filterBy,
   setYearChart,
+  addDevedor,
 } = debtSlice.actions;
 export const selectDebts = (state: RootState) => state.debts;
 

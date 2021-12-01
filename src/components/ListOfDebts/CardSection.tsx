@@ -9,7 +9,7 @@ interface ICardSection {
 
 import CardGasto from '@components/ListOfDebts/CardDebt';
 import { ms } from 'react-native-size-matters';
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 import _ from 'lodash';
 
 import { toCurrency } from '@utils/auxFunctions';

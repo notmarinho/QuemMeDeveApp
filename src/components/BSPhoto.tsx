@@ -7,7 +7,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import { ms } from 'react-native-size-matters';
 
 //CP
-import { colors, fonts } from '../commounStyles';
+import { colors, fonts } from '../commonStyles';
 
 const BSMesAno = forwardRef((props: any, ref) => {
   return (

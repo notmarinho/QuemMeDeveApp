@@ -25,7 +25,7 @@ module.exports = {
           '@hooks': './src/hooks',
           '@models': './src/models',
           '@interfaces': './src/interfaces/IMainInterfaces.ts',
-          '@theme': './src/commounStyles.ts',
+          '@theme': './src/commonStyles.ts',
         },
       },
     ],

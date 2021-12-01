@@ -3,7 +3,7 @@ import { GastoModel } from '@models/GastoModel';
 import { fromUnixTime, lightFormat } from 'date-fns';
 import { StyleSheet, Text, View } from 'react-native';
 import { ms } from 'react-native-size-matters';
-import { FontSize, fonts } from '../../commounStyles';
+import { FontSize, fonts } from '../../commonStyles';
 import { currencyFormat } from '@utils/auxFunctions';
 
 interface CardGastoProps {
@@ -13,7 +13,6 @@ interface CardGastoProps {
 const CardGasto: React.FC<CardGastoProps> = ({ item: gasto }) => {
   const formatData = () => {
     const data = fromUnixTime(gasto.createdAt);
-    console.log(data);
     const dataFormatted = lightFormat(data, 'dd/MM/yyyy');
     return dataFormatted;
   };

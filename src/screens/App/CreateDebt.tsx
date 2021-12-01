@@ -1,21 +1,19 @@
 import React, { createRef, useState, useRef } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   StatusBar,
-  TouchableOpacity,
   Keyboard,
-  ActivityIndicator,
   SafeAreaView,
 } from 'react-native';
 
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 
 //CP
 import InputValorTotal, {
   IInputTotal,
 } from '@components/CreateDebt/InputValorTotal';
+import Button from '@components/Button';
 import ButtonDevedor from '@components/CreateDebt/ButtonDevedor';
 import ButtonCartao from '@components/CreateDebt/ButtonCartao';
 import ButtonMes from '@components/CreateDebt/ButtonMes';
@@ -26,7 +24,7 @@ import { allMonths } from '@utils/auxFunctions';
 import { monthIndexNumber } from '@utils/filterManager';
 
 //LB
-import { getTime, getYear, getMonth, getUnixTime } from 'date-fns';
+import { getYear, getMonth, getUnixTime } from 'date-fns';
 import BottomSheet from 'reanimated-bottom-sheet';
 import Toast from 'react-native-toast-message';
 import { ms } from 'react-native-size-matters';
@@ -59,7 +57,7 @@ const successToastConfig = {
 
 const CreateDebt = (props: any) => {
   //Redux
-  const { getItem, setItem } = useAsyncStorage('myData');
+  const { getItem, setItem } = useAsyncStorage('@initialData');
   const dispatch = useAppDispatch();
 
   //State
@@ -247,15 +245,11 @@ const CreateDebt = (props: any) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity
+        <Button
+          title="Registrar"
           onPress={handleCriarGasto}
-          style={styles.buttonRegistrar}>
-          {loading ? (
-            <ActivityIndicator animating color="#fff" />
-          ) : (
-            <Text style={styles.buttonRegistrarLabel}>Registrar</Text>
-          )}
-        </TouchableOpacity>
+          loading={loading}
+        />
       </SafeAreaView>
       <BSDevedor selectedItem={handleDevedor} ref={BSDevedorRef} />
       <BSCartao selectedItem={handleCartao} ref={BSCartaoRef} />

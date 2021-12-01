@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 
 //LB
 import { ms } from 'react-native-size-matters';

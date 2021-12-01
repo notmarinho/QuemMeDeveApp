@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 import { ms } from 'react-native-size-matters';
 
-import { colors, fonts } from '../../commounStyles'
+import { colors, fonts } from '../../commonStyles'
 
 const InputDescricao = () => {
     const [descricao, setDescricao] = useState<string>('');

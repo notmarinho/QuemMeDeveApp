@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { ms } from 'react-native-size-matters';
 import { DevedorModel } from '@models/DevedorModel';
-import { fonts, FontSize } from '../../commounStyles';
+import { fonts, FontSize } from '../../commonStyles';
 
 type CardDevedorProps = {
   devedor: DevedorModel;

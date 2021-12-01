@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@hooks';
 import { selectDebts, filterBy } from '../../feature/debts/debetSlice'
 
 //CP
-import { colors } from '../../commounStyles';
+import { colors } from '../../commonStyles';
 import { filterDebts } from '@utils/filterManager';
 import ListOfDebts from '@components/ListOfDebts/ListOfDebts';
 

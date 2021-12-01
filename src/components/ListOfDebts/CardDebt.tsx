@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { IGasto } from '@interfaces/IMainInterfaces';
 
 //CP
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 import { toCurrency } from '@utils/auxFunctions';
 
 //LB

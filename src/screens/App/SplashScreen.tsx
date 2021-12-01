@@ -5,35 +5,61 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //CP
-import { colors } from '../../commounStyles';
+import { colors } from '../../commonStyles';
 
 //Redux
 import { useAppDispatch } from '@hooks';
 import { setInitialStateOnRedux } from '../../feature/debts/debetSlice';
 import { DebitoReduxModel } from '@models/redux/DebitoReduxModel';
+import { useNavigation } from '@react-navigation/core';
 
 const SplashScreen = (props: any) => {
   // Redux
   const dispatch = useAppDispatch();
+  const navigation = useNavigation();
+
+  const getDevedores = async () => {
+    const stringDevedores = await AsyncStorage.getItem('@devedores');
+    if (stringDevedores != null) {
+      return JSON.parse(stringDevedores);
+    }
+    return null;
+  };
+
+  const getInitialData = async () => {
+    const stringInitialValues = await AsyncStorage.getItem('@initialData');
+    if (stringInitialValues != null) {
+      return JSON.parse(stringInitialValues);
+    }
+    return null;
+  };
+
+  const getData = useCallback(async () => {
+    try {
+      const initialData = await getInitialData();
+      const listaDevedores = await getDevedores();
+
+      console.log('Devedores: ', listaDevedores);
+      if (initialData) {
+        if (listaDevedores) {
+          initialData.devedorList = listaDevedores;
+        } else {
+          initialData.devedorList = [];
+        }
+        dispatch(setInitialStateOnRedux(initialData));
+      } else {
+        storeData();
+      }
+      navigation.navigate('Dashboard');
+    } catch (e) {
+      console.log(e);
+      // error reading value
+    }
+  }, [dispatch, navigation]);
 
   useEffect(() => {
     getData();
   }, [getData]);
-
-  const getData = useCallback(async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('myData');
-      if (jsonValue != null) {
-        dispatch(setInitialStateOnRedux(JSON.parse(jsonValue)));
-        props.navigation.replace('Dashboard');
-      } else {
-        storeData();
-        props.navigation.replace('Dashboard');
-      }
-    } catch (e) {
-      // error reading value
-    }
-  }, [dispatch, props.navigation]);
 
   const storeData = async () => {
     try {
@@ -45,7 +71,7 @@ const SplashScreen = (props: any) => {
         filteringBy: 'devedor',
         chartData: [],
       };
-      await AsyncStorage.setItem('myData', JSON.stringify(jsonValue));
+      await AsyncStorage.setItem('@initialData', JSON.stringify(jsonValue));
     } catch (e) {
       // saving error
     }

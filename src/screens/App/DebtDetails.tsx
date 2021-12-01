@@ -14,12 +14,10 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ImagePicker from 'react-native-image-crop-picker';
 import { ms } from 'react-native-size-matters';
-import { colors, fonts } from '../../commounStyles';
+import { colors, fonts } from '../../commonStyles';
 import Toast from 'react-native-toast-message';
 import BSPhoto from '@components/BSPhoto';
-import { IGasto } from '@interfaces/IMainInterfaces';
 import { toCurrency } from '../../utils/auxFunctions';
-import { IReduxState } from '@interfaces/IMainInterfaces';
 import { useAppDispatch, useAppSelector } from '@hooks';
 import {
   selectDebts,
@@ -29,19 +27,22 @@ import {
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { getYear } from 'date-fns';
 
+import { GastoModel } from '@models/GastoModel';
+import { DebitoReduxModel } from '@models/redux/DebitoReduxModel';
+
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-const DebtDetais = ({ route }: { route: any }) => {
-  const debt: IGasto = route.params.item;
+const DebtDetails = ({ route }: { route: any }) => {
+  const debt: GastoModel = route.params.item;
 
   const bsPhotoRef = createRef();
   const [loading, setLoading] = useState<boolean>(false);
-  const [editedDebt, setEditedDebt] = useState<IGasto>(route.params.item);
+  const [editedDebt, setEditedDebt] = useState<GastoModel>(route.params.item);
 
   //Redux
   const dispatch = useAppDispatch();
   const { debtsList, filteringBy } = useAppSelector(selectDebts);
-  const { getItem, setItem } = useAsyncStorage('myData');
+  const { getItem, setItem } = useAsyncStorage('@initialData');
 
   const save = () => {
     dispatch(editDebt({ originalDebt: debt, editedDebt: editedDebt })); // Updating Redux
@@ -52,7 +53,7 @@ const DebtDetais = ({ route }: { route: any }) => {
   const updateStorage = async () => {
     const stringStorage = await getItem();
     if (stringStorage) {
-      let myStorage: IReduxState = JSON.parse(stringStorage);
+      let myStorage: DebitoReduxModel = JSON.parse(stringStorage);
       myStorage = { ...myStorage, debtsList };
       let myStorageString = JSON.stringify(myStorage);
       await setItem(myStorageString);
@@ -119,7 +120,7 @@ const DebtDetais = ({ route }: { route: any }) => {
   );
 };
 
-export default DebtDetais;
+export default DebtDetails;
 
 const styles = StyleSheet.create({
   container: {
