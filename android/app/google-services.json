@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "773692476436",
+    "project_id": "quem-deve",
+    "storage_bucket": "quem-deve.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773692476436:android:6821051bbe0cd5bcea6b01",
+        "android_client_info": {
+          "package_name": "com.quemmedeveapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773692476436-4am83m0b2c0om0nirof9j6rbvondbk8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.quemmedeveapp",
+            "certificate_hash": "5d57911bd78f9425c2ca8980578f28a2ce91e6bb"
+          }
+        },
+        {
+          "client_id": "773692476436-m34jj66l2j3ijjm2h12fe3bbt53tbj2o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCam0U8iunU-OwJiENhH38OkV6t7WoIQgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773692476436-m34jj66l2j3ijjm2h12fe3bbt53tbj2o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
