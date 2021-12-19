@@ -20,6 +20,7 @@
 		F22480E027486EC80013ADB0 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5D32DD0FC72B4F83840A0C2F /* Poppins-Bold.ttf */; };
 		F22480E127486EC80013ADB0 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5C1E8976307448D94E3A351 /* Poppins-Light.ttf */; };
 		F22480E227486EC90013ADB0 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0459B08BE24A407F94225E50 /* Poppins-Medium.ttf */; };
+		F2F55051276FA327005AE500 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2F55050276FA327005AE500 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F21C447E7C4F49A9A0A7D125 /* Inter-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light.ttf"; path = "../src/assets/fonts/Inter-Light.ttf"; sourceTree = "<group>"; };
 		F2CD02835FC84155A0FBD718 /* MontserratAlternates-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Regular.ttf"; path = "../src/assets/fonts/MontserratAlternates-Regular.ttf"; sourceTree = "<group>"; };
+		F2F55050276FA327005AE500 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F403AE7667D0AE9B853032CD /* libPods-QuemMeDeveApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QuemMeDeveApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9F16DAF38DE4D538C442E03 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		FAAFE76817DB4E08AEE9285D /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 		13B07FAE1A68108700A75B9A /* QuemMeDeveApp */ = {
 			isa = PBXGroup;
 			children = (
+				F2F55050276FA327005AE500 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -310,6 +313,7 @@
 			files = (
 				F22480E027486EC80013ADB0 /* Poppins-Bold.ttf in Resources */,
 				F22480E127486EC80013ADB0 /* Poppins-Light.ttf in Resources */,
+				F2F55051276FA327005AE500 /* GoogleService-Info.plist in Resources */,
 				F22480E227486EC90013ADB0 /* Poppins-Medium.ttf in Resources */,
 				F22480DD27486EC30013ADB0 /* MontserratAlternates-Bold.ttf in Resources */,
 				F22480DE27486EC30013ADB0 /* MontserratAlternates-Light.ttf in Resources */,
