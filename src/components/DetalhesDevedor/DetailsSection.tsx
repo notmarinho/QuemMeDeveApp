@@ -1,8 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacityProps,
+  TouchableOpacity,
+} from 'react-native';
 import { Layout, FontSize, fonts } from '../../commonStyles';
 
-interface DetailsSectionProps {
+interface DetailsSectionProps extends TouchableOpacityProps {
   ano: number;
   mes: string;
   valorTotal: number;
@@ -10,19 +16,15 @@ interface DetailsSectionProps {
 
 import { currencyFormat } from '@utils/auxFunctions';
 
-const DetailsSection: React.FC<DetailsSectionProps> = ({
-  ano,
-  mes,
-  valorTotal,
-}) => {
+const DetailsSection: React.FC<DetailsSectionProps> = props => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} {...props}>
       <View>
-        <Text style={styles.ano}>{ano}</Text>
-        <Text style={styles.mes}>{mes}</Text>
+        <Text style={styles.ano}>{props.ano}</Text>
+        <Text style={styles.mes}>{props.mes}</Text>
       </View>
-      <Text style={styles.valorTotal}>{currencyFormat(valorTotal)}</Text>
-    </View>
+      <Text style={styles.valorTotal}>{currencyFormat(props.valorTotal)}</Text>
+    </TouchableOpacity>
   );
 };
 

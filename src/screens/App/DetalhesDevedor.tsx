@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import React, { createRef, useCallback, useEffect, useState } from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
 
 import CardDevedor from '@components/DetalhesDevedor/CardDevedor';
 import DetailsSection from '@components/DetalhesDevedor/DetailsSection';
 import CardGasto from '@components/DetalhesDevedor/CardGasto';
+import BSDatas from '@components/DetalhesDevedor/BSDatas';
 
 import { allMonths } from '@utils/auxFunctions';
 import { getComprasDevedor, getComprasDevedorMes } from '@utils/filterManager';
@@ -16,6 +17,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { DevedorModel } from '@models/DevedorModel';
 import { getMonth, getYear } from 'date-fns';
 import { GastoModel } from '@models/GastoModel';
+import BottomSheetBehavior from 'reanimated-bottom-sheet';
 
 type DetalhesModel = {
   valorTotalMes: number;
@@ -24,6 +26,7 @@ type DetalhesModel = {
 };
 
 const DetalhesDevedor = ({ route }) => {
+  const BSDatasRef = createRef<BottomSheetBehavior>();
   const devedor: DevedorModel = route.params.devedor;
   const todosGastos = useAppSelector(state => state.debts.debtsList);
   const [mesGastos, setMesGastos] = useState<GastoModel[]>([]);
@@ -51,6 +54,8 @@ const DetalhesDevedor = ({ route }) => {
     });
   }, [devedor.id, todosGastos]);
 
+  const openBottomSheet = () => BSDatasRef.current?.snapTo(1);
+
   useEffect(() => {
     getDebitosDoDevedor();
   }, [getDebitosDoDevedor]);
@@ -64,6 +69,7 @@ const DetalhesDevedor = ({ route }) => {
         </View>
         <View style={styles.middleContainer}>
           <DetailsSection
+            onPress={openBottomSheet}
             valorTotal={detalhesGastos?.valorTotalMes}
             mes={detalhesGastos?.mes}
             ano={detalhesGastos?.ano}
@@ -79,6 +85,7 @@ const DetalhesDevedor = ({ route }) => {
           />
         </View>
       </View>
+      <BSDatas ref={BSDatasRef} />
     </>
   );
 };

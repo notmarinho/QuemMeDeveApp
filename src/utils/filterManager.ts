@@ -70,8 +70,6 @@ export const generateChartData = (
       chartData[index] = 0;
     }
   }
-  console.log(chartData);
-
   return chartData;
 };
 

@@ -41,9 +41,7 @@ const VirtualKeyboard = ({ returnValue }: IVirtualKeyboard) => {
   };
 
   const handleDelete = () => {
-    if (value == 0) {
-      console.log('Do nothing');
-    } else {
+    if (value !== 0) {
       let newValue = Math.floor(value / 10);
       setValue(newValue);
       returnValue(newValue);

@@ -130,7 +130,7 @@ const EmptyListContent = (props: IEmptyContent) => {
     <Pressable onPress={onPress} style={styles.emptyContainer}>
       <Icon name="credit-card-plus" size={ms(50)} color={colors.muted} />
       <Text style={styles.emptyMessage}>
-        Adicione o cartão para registrar os gastos feitos nele!
+        Adicione um cartão para registrar os gastos feitos nele!
       </Text>
     </Pressable>
   );
