@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useAppDispatch } from '@hooks';
 import { addDevedor } from '../../feature/debts/debetSlice';
-import { DevedorModel } from '@models/DevedorModel';
+import { iDevedorModel } from '@models/iDevedorModel';
 import uuid from 'react-native-uuid';
 import { colors, fonts, FontSize, Layout } from '@theme';
 import Button from '@components/Button';
@@ -22,7 +22,7 @@ const CreateDevedor = () => {
 
   const registerDevedor = () => {
     if (nomeDevedor.length > 1) {
-      var novoDevedor: DevedorModel = {
+      var novoDevedor: iDevedorModel = {
         id: uuid.v4().toString(),
         nome: nomeDevedor,
         sigla: definirSigla(nomeDevedor),

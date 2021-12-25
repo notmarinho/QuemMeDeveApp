@@ -36,7 +36,7 @@ import { addDebt } from '../../feature/debts/debetSlice';
 
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { IDetalheGasto } from '@interfaces';
-import { DevedorModel } from '@models/DevedorModel';
+import { iDevedorModel } from '@models/iDevedorModel';
 import { CartaoModel } from '@models/CartaoModel';
 import { GastoModel } from '@models/GastoModel';
 
@@ -62,7 +62,7 @@ const CreateDebt = (props: any) => {
 
   //State
   const [detalhes, setDetalhes] = useState<IDetalheGasto>(defaultDetalhes);
-  const [devedor, setDevedor] = useState<DevedorModel | undefined>();
+  const [devedor, setDevedor] = useState<iDevedorModel | undefined>();
   const [loading, setLoading] = useState<boolean>(false);
   const [cartao, setCartao] = useState<CartaoModel | undefined>();
   const [mes, setMes] = useState<string>(
@@ -109,7 +109,7 @@ const CreateDebt = (props: any) => {
     }
   };
 
-  const handleDevedor = (novoDevedor: DevedorModel) => {
+  const handleDevedor = (novoDevedor: iDevedorModel) => {
     setDevedor(novoDevedor);
     toggleBS('devedor', 'close');
   };

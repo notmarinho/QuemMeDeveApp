@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { useAppDispatch, useAppSelector } from '@hooks/';
+import { useAppDispatch, useAppSelector } from '@hooks/index';
 import { addDebt, removeDebt, selectDebts } from './debetSlice';
 
 import CurrencySheet from '@components/CurrencySheet';

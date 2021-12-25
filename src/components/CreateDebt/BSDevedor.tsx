@@ -14,14 +14,14 @@ import Animated, { interpolateNode } from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { colors, fonts } from '../../commonStyles';
 import { useAppSelector } from '@hooks';
-import { DevedorModel } from '@models/DevedorModel';
+import { iDevedorModel } from '@models/iDevedorModel';
 import { useNavigation } from '@react-navigation/core';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const SHEET_HEIGHT = ms(200);
 
 interface IDevedor {
-  item: DevedorModel;
+  item: iDevedorModel;
   selectedItem(item: any): void;
 }
 

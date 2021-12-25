@@ -29,6 +29,8 @@ export const FontSize = {
 
 export const Layout = {
   PADDING: ms(20),
+  RADIOS: ms(5),
+  HITSLOP: { left: 20, top: 20, bottom: 20, right: 20 },
 };
 
 export const chartConfig = {

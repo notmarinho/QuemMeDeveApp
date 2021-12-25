@@ -7,10 +7,6 @@ import {
   Button,
 } from 'react-native';
 
-//Redux
-import { useAppDispatch, useAppSelector } from '@hooks';
-import { selectDebts } from '../../feature/debts/debetSlice';
-
 //CP
 import { colors } from '../../commonStyles';
 import ValorTotal from '@components/Dashboard/ValorTotal';
@@ -18,15 +14,10 @@ import UsuarioHeader from '@components/Dashboard/UsuarioHeader';
 import Devedores from '@components/Dashboard/Devedores';
 
 //LB
-import { useNavigation } from '@react-navigation/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { iDashboardScreenProps } from 'src/routes/types';
 
-const Home = (props: any) => {
-  const navigation = useNavigation();
-  // Redux
-  const dispatch = useAppDispatch();
-  const { debtsList, debtsFilter, chartData } = useAppSelector(selectDebts);
-
+const Home = (props: iDashboardScreenProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={colors.black} />
@@ -36,11 +27,11 @@ const Home = (props: any) => {
       <View style={{ flex: 2 }}>
         <Button
           title="Novo Gasto"
-          onPress={() => navigation.navigate('CriarDebito')}
+          onPress={() => props.navigation.navigate('CreateDebt')}
         />
         <Button
           title="Novo Cartao"
-          onPress={() => navigation.navigate('CriarCartao')}
+          onPress={() => props.navigation.navigate('CreateCard')}
         />
         <Button title="Limpar Dados" onPress={() => AsyncStorage.clear()} />
       </View>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
 //LB
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,12 +11,16 @@ import { colors } from '../../commonStyles';
 import { useAppDispatch } from '@hooks';
 import { setInitialStateOnRedux } from '../../feature/debts/debetSlice';
 import { DebitoReduxModel } from '@models/redux/DebitoReduxModel';
-import { useNavigation } from '@react-navigation/core';
 
-const SplashScreen = (props: any) => {
+import useFirebase from '@services/hooks/useFirebase';
+import { iSplashScreenProps } from 'src/routes/types';
+
+import auth from '@react-native-firebase/auth';
+
+const SplashScreen = (props: iSplashScreenProps) => {
   // Redux
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
+  const { isUserSignedIn } = useFirebase();
 
   const getDevedores = async () => {
     const stringDevedores = await AsyncStorage.getItem('@devedores');
@@ -48,7 +52,6 @@ const SplashScreen = (props: any) => {
       const listaDevedores = await getDevedores();
       const listaCartoes = await getCartoes();
 
-      console.log('Devedores: ', listaDevedores);
       if (initialData) {
         listaDevedores
           ? (initialData.devedorList = listaDevedores)
@@ -60,16 +63,28 @@ const SplashScreen = (props: any) => {
       } else {
         storeData();
       }
-      navigation.navigate('Dashboard');
     } catch (e) {
       console.log(e);
       // error reading value
     }
-  }, [dispatch, navigation]);
+  }, [dispatch]);
+
+  const checkUserOnStorage = useCallback(async () => {
+    const isUserLogged = await isUserSignedIn();
+    const currentUser = auth().currentUser;
+    console.log('Current usen on storage ', currentUser);
+
+    if (isUserLogged) {
+      getData();
+      props.navigation.replace('App');
+    } else {
+      props.navigation.replace('Auth');
+    }
+  }, [getData, isUserSignedIn, props.navigation]);
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    checkUserOnStorage();
+  }, [checkUserOnStorage]);
 
   const storeData = async () => {
     try {

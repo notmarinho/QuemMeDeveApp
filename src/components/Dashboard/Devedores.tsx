@@ -7,7 +7,7 @@ import { ms } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAppSelector } from '@hooks';
 import { useNavigation } from '@react-navigation/core';
-import { DevedorModel } from 'src/models/DevedorModel';
+import { iDevedorModel } from 'src/models/iDevedorModel';
 
 const ButtonAdicionarDevedor = () => {
   const navigation = useNavigation();
@@ -24,7 +24,7 @@ const Devedores = () => {
   const devedores = useAppSelector(state => state.debts.devedorList);
   const navigation = useNavigation();
 
-  const devedorRow = (data: { item: DevedorModel }) => {
+  const devedorRow = (data: { item: iDevedorModel }) => {
     return (
       <Pressable
         onPress={() =>

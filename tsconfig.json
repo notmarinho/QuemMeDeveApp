@@ -46,6 +46,7 @@
       "@utils/*": ["./src/utils/*"],
       "@services/*": ["./src/services/*"],
       "@models/*": ["./src/models/*"],
+      "@screens/*": ["./src/screens/*"],
       "@hooks": ["./src/hooks/index.ts"],
       "@theme": ["src/commonStyles.ts"],
       "@interfaces": ["./src/interfaces/IMainInterfaces.ts"]

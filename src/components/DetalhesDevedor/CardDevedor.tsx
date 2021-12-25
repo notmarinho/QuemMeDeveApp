@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { ms } from 'react-native-size-matters';
-import { DevedorModel } from '@models/DevedorModel';
+import { iDevedorModel } from '@models/iDevedorModel';
 import { fonts, FontSize } from '../../commonStyles';
 
 type CardDevedorProps = {
-  devedor: DevedorModel;
+  devedor: iDevedorModel;
   totalCompras: number;
 };
 

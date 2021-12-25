@@ -1,5 +1,5 @@
 import { CartaoModel } from './CartaoModel';
-import { DevedorModel } from './DevedorModel';
+import { iDevedorModel } from './iDevedorModel';
 
 export type GastoModel = {
   id: string | number[];
@@ -8,7 +8,7 @@ export type GastoModel = {
   parcela: number;
   ano: number;
   createdAt: number;
-  devedor: DevedorModel;
+  devedor: iDevedorModel;
   valorTotal: number;
   totalParcelas: number;
   compra: string;

@@ -14,7 +14,7 @@ import { useAppSelector } from '@hooks';
 import { ms } from 'react-native-size-matters';
 import { Layout } from '../../commonStyles';
 import { FlatList } from 'react-native-gesture-handler';
-import { DevedorModel } from '@models/DevedorModel';
+import { iDevedorModel } from '@models/iDevedorModel';
 import { getMonth, getYear } from 'date-fns';
 import { GastoModel } from '@models/GastoModel';
 import BottomSheetBehavior from 'reanimated-bottom-sheet';
@@ -27,7 +27,7 @@ type DetalhesModel = {
 
 const DetalhesDevedor = ({ route }) => {
   const BSDatasRef = createRef<BottomSheetBehavior>();
-  const devedor: DevedorModel = route.params.devedor;
+  const devedor: iDevedorModel = route.params.devedor;
   const todosGastos = useAppSelector(state => state.debts.debtsList);
   const [mesGastos, setMesGastos] = useState<GastoModel[]>([]);
   const [detalhesGastos, setDetalhesGastos] = useState<DetalhesModel>({

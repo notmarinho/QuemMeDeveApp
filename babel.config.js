@@ -24,6 +24,7 @@ module.exports = {
           '@utils': './src/utils',
           '@hooks': './src/hooks',
           '@models': './src/models',
+          '@screens': './src/screens',
           '@interfaces': './src/interfaces/IMainInterfaces.ts',
           '@theme': './src/commonStyles.ts',
         },

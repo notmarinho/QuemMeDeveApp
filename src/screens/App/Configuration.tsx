@@ -1,4 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/core';
+import useFirebase from '@services/hooks/useFirebase';
 import { colors, fonts, Layout } from '@theme';
 import React from 'react';
 import {
@@ -13,8 +15,16 @@ import { ms } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Configuration = () => {
+  const navigation = useNavigation();
+  const { logOut } = useFirebase();
   const deleteDatabase = () => {
     AsyncStorage.clear();
+  };
+
+  const onLogoutPress = () => {
+    logOut().then(() => {
+      navigation.replace('Auth');
+    });
   };
 
   return (
@@ -23,6 +33,10 @@ const Configuration = () => {
         <TouchableOpacity onPress={deleteDatabase} style={styles.buttonOptions}>
           <Text style={styles.buttonLabel}>Apagar Dados</Text>
           <Icon name="trash-can-outline" size={ms(20)} color={colors.primary} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onLogoutPress} style={styles.buttonOptions}>
+          <Text style={styles.buttonLabel}>Sair</Text>
+          <Icon name="logout" size={ms(20)} color={'red'} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
